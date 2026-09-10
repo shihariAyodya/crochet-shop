@@ -1,0 +1,35 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 40px;
+  background-color: var(--color-sage-light);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar-logo {
+  font-family: var(--heading);
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--color-rose-dark);
+}
+
+.navbar-links {
+  display: flex;
+  list-style: none;
+  gap: 32px;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-links a {
+  text-decoration: none;
+  color: var(--color-charcoal);
+  font-size: 16px;
+}
+
+.navbar-links a:hover {
+  color: var(--color-rose);
+}
