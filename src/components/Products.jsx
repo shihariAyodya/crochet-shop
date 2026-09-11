@@ -17,7 +17,7 @@ function Products() {
             <h3 className="product-name">{product.name}</h3>
             <p className="product-price">{product.price}</p>
             
-              <a href={`https://wa.me/94XXXXXXXXX?text=Hi! I'm interested in the ${product.name}`}
+              <a href={`https://wa.me/+94705924972?text=Hi! I'm interested in the ${product.name}`}
               target="_blank"
               rel="noopener noreferrer"
               className="product-button"

@@ -71,3 +71,8 @@
   margin-bottom: 16px;
   background-color: var(--color-sage-light);
 }
+
+.product-card {
+  text-decoration: none;
+  color: inherit;
+}

@@ -1,4 +1,5 @@
 import './Footer.css';
+import { Link } from 'react-router-dom';
 
 function Footer() {
   return (
@@ -10,32 +11,20 @@ function Footer() {
         </div>
 
         <div className="footer-links">
-          <h4>Quick Links</h4>
           <ul>
-            <li><a href="#home">Home</a></li>
-            <li><a href="#products">Products</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><Link to="/">Home</Link></li>
+            <li><Link to="/products">Products</Link></li>
+            <li><Link to="/about">About</Link></li>
+            <li><Link to="/#contact">Contact</Link></li>
           </ul>
         </div>
 
         <div className="footer-social">
-          <h4>Get In Touch</h4>
           <div className="footer-social-icons">
-            
-              <a href="https://wa.me/94XXXXXXXXX"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Chat on WhatsApp"
-            >
+            <a href="https://wa.me/+94705924972" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">
               WhatsApp
             </a>
-            
-              <a href="https://facebook.com/yourpagename"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Visit our Facebook page"
-            >
+            <a href="https://facebook.com/yourpagename" target="_blank" rel="noopener noreferrer" aria-label="Visit our Facebook page">
               Facebook
             </a>
           </div>

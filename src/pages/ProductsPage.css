@@ -1,0 +1,29 @@
+.category-tiles {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+
+.category-tile {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-sage);
+  color: var(--color-charcoal);
+  padding: 10px 22px;
+  border-radius: 24px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.category-tile:hover {
+  background-color: var(--color-sage-light);
+}
+
+.category-tile.active {
+  background-color: var(--color-rose);
+  border-color: var(--color-rose);
+  color: var(--color-white);
+}

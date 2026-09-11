@@ -33,3 +33,18 @@
 .navbar-links a:hover {
   color: var(--color-rose);
 }
+
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--heading);
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--color-rose-dark);
+}
+
+.navbar-icon {
+  font-size: 26px;
+  color: var(--color-rose-dark);
+}

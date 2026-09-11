@@ -1,0 +1,46 @@
+.about {
+  padding: 0 0 80px;
+}
+
+.about-hero {
+  text-align: center;
+  padding: 80px 24px 60px;
+  background-color: var(--color-sage-light);
+}
+
+.about-hero h1 {
+  color: var(--color-charcoal);
+  margin-bottom: 8px;
+}
+
+.about-tagline {
+  font-size: 18px;
+  color: var(--color-sage-dark);
+}
+
+.about-content {
+  max-width: 700px;
+  margin: 60px auto 0;
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.about-block h2 {
+  font-size: 22px;
+  color: var(--color-rose-dark);
+  margin-bottom: 12px;
+}
+
+.about-block p {
+  color: var(--color-charcoal);
+  line-height: 170%;
+  font-size: 16px;
+}
+
+@media (max-width: 600px) {
+  .about-hero {
+    padding: 60px 20px 40px;
+  }
+}

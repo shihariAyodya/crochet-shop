@@ -15,7 +15,7 @@ function Hero() {
           Cozy, one-of-a-kind pieces crafted just for you ,<br />browse the collection and order directly on WhatsApp.
         </p>
         
-          <a href="https://wa.me/94XXXXXXXXX"
+          <a href="https://wa.me/+94705924972"
           target="_blank"
           rel="noopener noreferrer"
           className="hero-button"

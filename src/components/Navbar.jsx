@@ -1,14 +1,19 @@
 import './Navbar.css';
+import { Link } from 'react-router-dom';
+import { GiYarn } from 'react-icons/gi';
 
 function Navbar() {
   return (
     <nav className="navbar">
-      <div className="navbar-logo">CrochetOn</div>
+      <div className="navbar-logo">
+        <GiYarn className="navbar-icon" />
+        CrochetOn
+      </div>
       <ul className="navbar-links">
-        <li><a href="#home">Home</a></li>
-        <li><a href="#products">Products</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li><Link to="/">Home</Link></li>
+        <li><Link to="/products">Products</Link></li>
+        <li><Link to="/about">About</Link></li>
+        <li><Link to="/#contact">Contact</Link></li>
       </ul>
     </nav>
   );
