@@ -1,0 +1,45 @@
+.rate-us {
+  text-align: center;
+  padding: 48px 24px;
+  background-color: var(--color-cream);
+}
+
+.rate-us h3 {
+  color: var(--color-charcoal);
+  margin-bottom: 6px;
+  font-size: 20px;
+}
+
+.rate-us p {
+  color: var(--color-charcoal);
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.rate-us-stars {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  font-size: 36px;
+}
+
+.rate-us-star {
+  color: var(--color-sage-light);
+  cursor: pointer;
+  transition: color 0.15s ease, transform 0.15s ease;
+}
+
+.rate-us-star:hover {
+  transform: scale(1.15);
+}
+
+.rate-us-star.filled {
+  color: var(--color-rose);
+}
+
+.rate-us-thanks {
+  margin-top: 16px;
+  color: var(--color-rose-dark);
+  font-weight: 600;
+  font-size: 14px;
+}

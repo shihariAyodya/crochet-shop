@@ -24,7 +24,9 @@
   padding: 0 24px;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 40px;
+  text-align: center;
 }
 
 .about-block h2 {

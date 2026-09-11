@@ -2,6 +2,8 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import Hero from '../components/Hero';
 import Products from '../components/Products';
+import Testimonials from '../components/Testimonials';
+import RateUs from '../components/RateUs';
 import Contact from '../components/Contact';
 
 function Home() {
@@ -20,6 +22,8 @@ function Home() {
     <>
       <Hero />
       <Products />
+      <Testimonials />
+      <RateUs />
       <Contact />
     </>
   );
