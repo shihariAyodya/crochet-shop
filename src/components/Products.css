@@ -5,8 +5,10 @@
 }
 
 .products h2 {
+  font-size: 34px;
+  color: var(--color-rose-dark);
   margin-bottom: 40px;
-  color: var(--color-charcoal);
+  letter-spacing: -0.5px;
 }
 
 .products-grid {
@@ -75,4 +77,26 @@
 .product-card {
   text-decoration: none;
   color: inherit;
+}
+
+.products h2 {
+  font-size: 34px;
+  color: var(--color-rose-dark);
+  margin-bottom: 40px;
+  letter-spacing: -0.5px;
+  position: relative;
+  display: inline-block;
+  padding-bottom: 12px;
+}
+
+.products h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  border-radius: 2px;
+  background-color: var(--color-sage);
 }

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { products } from '../data/products';
 import './ProductDetail.css';
+import ImageSlider from '../components/ImageSlider';
 
 function ProductDetail() {
   const { id } = useParams();
@@ -57,7 +58,7 @@ function ProductDetail() {
       <Link to="/products" className="back-link">← Back to Products</Link>
 
       <div className="product-detail-content">
-        <div className="product-detail-image-placeholder"></div>
+        <ImageSlider count={product.images} />
 
         <div className="product-detail-info">
           <h1>{product.name}</h1>

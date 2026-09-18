@@ -5,6 +5,7 @@ export const products = [
     category: 'Meshtops',
     price: 'Rs. 2,800',
     description: 'A breezy, open-weave crochet mesh top — perfect layered over a bralette or swimsuit.',
+    images: 3,
     sizes: ['S', 'M', 'L'],
     colors: [
       { name: 'Cream', hex: '#faf6f2', available: true },
@@ -18,6 +19,7 @@ export const products = [
     category: 'Meshtops',
     price: 'Rs. 2,900',
     description: 'A lightweight patterned mesh top with delicate open stitching, great for a beach day or casual outing.',
+    images: 3,
     sizes: ['S', 'M', 'L'],
     colors: [
       { name: 'Terracotta', hex: '#c1694f', available: true },
@@ -30,6 +32,7 @@ export const products = [
     category: 'Cardigans',
     price: 'Rs. 4,500',
     description: 'A soft, oversized cardigan with wooden buttons — cozy enough for cool evenings, light enough for spring.',
+    images: 3,
     sizes: ['S/M', 'L/XL'],
     colors: [
       { name: 'Cream', hex: '#faf6f2', available: true },
@@ -43,6 +46,7 @@ export const products = [
     category: 'Cardigans',
     price: 'Rs. 4,800',
     description: 'A classic granny-square patterned cardigan, handmade with a mix of warm earthy tones.',
+    images: 3,
     sizes: ['S/M', 'L/XL'],
     colors: [
       { name: 'Multicolor', hex: '#c98a94', available: true },
@@ -55,6 +59,7 @@ export const products = [
     category: 'Croptops',
     price: 'Rs. 2,200',
     description: 'A fitted crochet crop top with a delicate scalloped hem — a warm-weather staple.',
+    images: 3,
     sizes: ['XS', 'S', 'M'],
     colors: [
       { name: 'White', hex: '#ffffff', available: true },
@@ -68,6 +73,7 @@ export const products = [
     category: 'Croptops',
     price: 'Rs. 2,000',
     description: 'A halter-neck crop top with an adjustable tie back, handmade with soft cotton yarn.',
+    images: 3,
     sizes: ['XS', 'S', 'M'],
     colors: [
       { name: 'Sage Green', hex: '#9caf88', available: true },
@@ -80,6 +86,7 @@ export const products = [
     category: 'Beachwear',
     price: 'Rs. 3,600',
     description: 'A flowy, semi-sheer crochet cover-up — ideal thrown over a swimsuit for a beach day or resort look.',
+    images: 3,
     sizes: ['One Size'],
     colors: [
       { name: 'Cream', hex: '#faf6f2', available: true },
@@ -92,6 +99,7 @@ export const products = [
     category: 'Beachwear',
     price: 'Rs. 2,400',
     description: 'A crochet bikini top with playful fringe detailing, made with quick-dry cotton yarn.',
+    images: 3,
     sizes: ['S', 'M', 'L'],
     colors: [
       { name: 'Terracotta', hex: '#c1694f', available: true },
