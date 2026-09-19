@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import './ImageSlider.css';
 
-function ImageSlider({ count = 1 }) {
+function ImageSlider({ images }) {
   const [current, setCurrent] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
+
+  const isPlaceholder = typeof images === 'number';
+  const count = isPlaceholder ? images : images.length;
 
   const goPrev = (e) => {
     e.stopPropagation();
@@ -15,13 +18,30 @@ function ImageSlider({ count = 1 }) {
     setCurrent((prev) => (prev === count - 1 ? 0 : prev + 1));
   };
 
+  if (count === 0) return null;
+
+  const renderImage = (isModal = false) => {
+    if (isPlaceholder) {
+      return (
+        <div className={isModal ? 'slider-modal-image-placeholder' : 'slider-image-placeholder'}>
+          <span className="slider-image-label">Image {current + 1} of {count}</span>
+        </div>
+      );
+    }
+    return (
+      <img
+        src={images[current]}
+        alt={`Product view ${current + 1}`}
+        className={isModal ? 'slider-modal-img' : 'slider-img'}
+      />
+    );
+  };
+
   return (
     <>
       <div className="image-slider" onClick={() => setIsOpen(true)}>
-        <div className="slider-image-placeholder">
-          <span className="slider-image-label">Image {current + 1} of {count}</span>
-        </div>
-        <span className="slider-zoom-hint">🔍︎</span>
+        {renderImage(false)}
+        <span className="slider-zoom-hint">🔍</span>
       </div>
 
       {isOpen && (
@@ -31,9 +51,7 @@ function ImageSlider({ count = 1 }) {
           </button>
 
           <div className="slider-modal-content" onClick={(e) => e.stopPropagation()}>
-            <div className="slider-modal-image-placeholder">
-              <span className="slider-image-label">Image {current + 1} of {count}</span>
-            </div>
+            {renderImage(true)}
 
             {count > 1 && (
               <>

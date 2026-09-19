@@ -1,3 +1,6 @@
+import topPink1 from '../assets/products/top-pink-white-1.png.png';
+import topPurple1 from '../assets/products/top-purple-white-1.png.png';
+
 export const products = [
   {
     id: 1,
@@ -54,19 +57,24 @@ export const products = [
     ],
   },
   {
-    id: 5,
-    name: 'Scallop Edge Crop Top',
-    category: 'Croptops',
-    price: 'Rs. 2,200',
-    description: 'A fitted crochet crop top with a delicate scalloped hem — a warm-weather staple.',
-    images: 3,
-    sizes: ['XS', 'S', 'M'],
-    colors: [
-      { name: 'White', hex: '#ffffff', available: true },
-      { name: 'Grey', hex: '#a8a8a8', available: true },
-      { name: 'Pink', hex: '#f2b5c4', available: true },
-    ],
+  id: 5,
+  name: 'Striped Crochet Meshtop',
+  category: 'Meshtops',
+  prices: {
+    XS: 'Rs. 2,300',
+    S: 'Rs. 2,500',
+    M: 'Rs. 3,000',
+    L: 'Rs. 3,300',
+    XL: 'Rs. 3,500',
   },
+  description: 'A relaxed, open-weave crochet mesh top with bold horizontal stripes and flowing bell sleeves — made with soft cotton yarn.',
+  images: [topPink1, topPurple1],
+  sizes: ['XS', 'S', 'M', 'L', 'XL'],
+  colors: [
+    { name: 'Pink & White', hex: ['#c98a94', '#ffffff'], available: true },
+    { name: 'Purple & White', hex: ['#a893c9', '#ffffff'], available: true },
+  ],
+},
   {
     id: 6,
     name: 'Halter Crop Top',

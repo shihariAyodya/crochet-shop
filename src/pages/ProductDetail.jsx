@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { products } from '../data/products';
-import './ProductDetail.css';
 import ImageSlider from '../components/ImageSlider';
+import './ProductDetail.css';
+import sizeChart from '../assets/size-chart.jpg';
 
 function ProductDetail() {
   const { id } = useParams();
@@ -12,6 +13,7 @@ function ProductDetail() {
   const [selectedColor, setSelectedColor] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [orderItems, setOrderItems] = useState([]);
+  const [showSizeChart, setShowSizeChart] = useState(false);
 
   if (!product) {
     return (
@@ -21,6 +23,13 @@ function ProductDetail() {
       </section>
     );
   }
+
+  const hasSizePricing = Boolean(product.prices);
+
+  const getPriceForSize = (size) => {
+    if (hasSizePricing) return product.prices[size];
+    return product.price;
+  };
 
   const canAdd = selectedSize && selectedColor;
 
@@ -33,7 +42,6 @@ function ProductDetail() {
       ...items,
       { size: selectedSize, color: selectedColor, quantity },
     ]);
-    // Reset selections so they can pick a different combo next
     setSelectedSize(null);
     setSelectedColor(null);
     setQuantity(1);
@@ -44,12 +52,12 @@ function ProductDetail() {
   };
 
   const buildWhatsappMessage = () => {
-  let message = `Hi! I'm interested in the ${product.name}\n`;
-  orderItems.forEach((item, index) => {
-    message += `\n${index + 1})\nSize: ${item.size}\nColor: ${item.color}\nQuantity: ${item.quantity}\n`;
-  });
-  return message;
-};
+    let message = `Hi! I'm interested in the ${product.name}\n`;
+    orderItems.forEach((item, index) => {
+      message += `\n${index + 1})\nSize: ${item.size}\nColor: ${item.color}\nQuantity: ${item.quantity}\nPrice: ${getPriceForSize(item.size)}\n`;
+    });
+    return message;
+  };
 
   const hasItems = orderItems.length > 0;
 
@@ -58,15 +66,28 @@ function ProductDetail() {
       <Link to="/products" className="back-link">← Back to Products</Link>
 
       <div className="product-detail-content">
-        <ImageSlider count={product.images} />
+        <ImageSlider images={product.images} />
 
         <div className="product-detail-info">
           <h1>{product.name}</h1>
-          <p className="product-detail-price">{product.price}</p>
+          <p className="product-detail-price">
+            {hasSizePricing
+              ? (selectedSize ? getPriceForSize(selectedSize) : 'Select a size to see price')
+              : product.price}
+          </p>
           <p className="product-detail-description">{product.description}</p>
 
           <div className="product-detail-section">
-            <h3>Select Size</h3>
+            <div className="size-header">
+              <h3>Select Size</h3>
+              <button
+                type="button"
+                className="size-chart-link"
+                onClick={() => setShowSizeChart(true)}
+              >
+                View Size Chart
+              </button>
+            </div>
             <ul className="size-list">
               {product.sizes.map((size) => (
                 <li
@@ -96,7 +117,11 @@ function ProductDetail() {
                     className={`swatch ${!color.available ? 'unavailable' : ''} ${
                       selectedColor === color.name ? 'selected' : ''
                     }`}
-                    style={{ backgroundColor: color.hex }}
+                    style={
+                      Array.isArray(color.hex)
+                        ? { background: `linear-gradient(90deg, ${color.hex[0]} 50%, ${color.hex[1]} 50%)` }
+                        : { backgroundColor: color.hex }
+                    }
                   ></span>
                   <span className="swatch-label">{color.name}</span>
                 </div>
@@ -133,7 +158,7 @@ function ProductDetail() {
                 {orderItems.map((item, index) => (
                   <li key={index} className="order-item">
                     <span>
-                      {item.size} · {item.color} · Qty: {item.quantity}
+                      {item.size} · {item.color} · Qty: {item.quantity} · {getPriceForSize(item.size)}
                     </span>
                     <button
                       type="button"
@@ -170,6 +195,24 @@ function ProductDetail() {
           </a>
         </div>
       </div>
+
+      {showSizeChart && (
+        <div className="size-chart-overlay" onClick={() => setShowSizeChart(false)}>
+          <button
+            className="size-chart-close"
+            onClick={() => setShowSizeChart(false)}
+            aria-label="Close size chart"
+          >
+            ✕
+          </button>
+          <img
+            src={sizeChart}
+            alt="Size chart"
+            className="size-chart-image"
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      )}
     </section>
   );
 }

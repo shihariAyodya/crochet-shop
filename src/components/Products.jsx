@@ -11,7 +11,11 @@ function Products() {
       <div className="products-grid">
         {featured.map((product) => (
           <Link to={`/products/${product.id}`} className="product-card" key={product.id}>
-            <div className="product-image-placeholder"></div>
+            {Array.isArray(product.images) ? (
+              <img src={product.images[0]} alt={product.name} className="product-card-image" />
+            ) : (
+              <div className="product-image-placeholder"></div>
+            )}
             <h3 className="product-name">{product.name}</h3>
             <p className="product-price">{product.price}</p>
           </Link>

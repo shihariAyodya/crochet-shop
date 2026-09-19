@@ -21,7 +21,7 @@ function Footer() {
 
         <div className="footer-social">
           <div className="footer-social-icons">
-            <a href="https://wa.me/+94705924972" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">
+            <a href="https://wa.me/+94705122847" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">
               WhatsApp
             </a>
             <a href="https://facebook.com/yourpagename" target="_blank" rel="noopener noreferrer" aria-label="Visit our Facebook page">

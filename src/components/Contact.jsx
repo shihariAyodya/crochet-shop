@@ -12,7 +12,7 @@ function Contact() {
 
       <div className="contact-options">
         
-          <a href="https://wa.me/+94705924972"
+          <a href="https://wa.me/+94705122847"
           target="_blank"
           rel="noopener noreferrer"
           className="contact-card"
