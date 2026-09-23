@@ -31,6 +31,12 @@ function ProductDetail() {
     return product.price;
   };
 
+  const selectedColorObj = product.colors.find((c) => c.name === selectedColor);
+  const activeImageIndex =
+    selectedColorObj && typeof selectedColorObj.imageIndex === 'number'
+      ? selectedColorObj.imageIndex
+      : undefined;
+
   const canAdd = selectedSize && selectedColor;
 
   const decreaseQty = () => setQuantity((q) => Math.max(1, q - 1));
@@ -66,7 +72,7 @@ function ProductDetail() {
       <Link to="/products" className="back-link">← Back to Products</Link>
 
       <div className="product-detail-content">
-        <ImageSlider images={product.images} />
+        <ImageSlider images={product.images} activeIndex={activeImageIndex} />
 
         <div className="product-detail-info">
           <h1>{product.name}</h1>

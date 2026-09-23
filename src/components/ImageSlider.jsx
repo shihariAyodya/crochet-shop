@@ -1,12 +1,18 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './ImageSlider.css';
 
-function ImageSlider({ images }) {
+function ImageSlider({ images, activeIndex }) {
   const [current, setCurrent] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
 
   const isPlaceholder = typeof images === 'number';
   const count = isPlaceholder ? images : images.length;
+
+  useEffect(() => {
+    if (typeof activeIndex === 'number') {
+      setCurrent(activeIndex);
+    }
+  }, [activeIndex]);
 
   const goPrev = (e) => {
     e.stopPropagation();

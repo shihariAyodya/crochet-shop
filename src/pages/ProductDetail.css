@@ -272,3 +272,59 @@
 .remove-item-button:hover {
   color: var(--color-rose);
 }
+
+.size-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.size-header h3 {
+  margin-bottom: 0;
+}
+
+.size-chart-link {
+  background: none;
+  border: none;
+  color: var(--color-rose-dark);
+  font-size: 13px;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+}
+
+.size-chart-link:hover {
+  color: var(--color-rose);
+}
+
+.size-chart-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.size-chart-image {
+  max-width: 90%;
+  max-height: 85vh;
+  border-radius: 12px;
+  background-color: var(--color-white);
+}
+
+.size-chart-close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 18px;
+  cursor: pointer;
+  z-index: 1001;
+}

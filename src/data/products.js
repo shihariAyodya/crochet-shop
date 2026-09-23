@@ -1,5 +1,6 @@
 import topPink1 from '../assets/products/top-pink-white-1.png.png';
 import topPurple1 from '../assets/products/top-purple-white-1.png.png';
+import topGreen1 from '../assets/products/top-green-white-1.png.png.jpg';
 
 export const products = [
   {
@@ -68,12 +69,14 @@ export const products = [
     XL: 'Rs. 3,500',
   },
   description: 'A relaxed, open-weave crochet mesh top with bold horizontal stripes and flowing bell sleeves — made with soft cotton yarn.',
-  images: [topPink1, topPurple1],
+ images: [topPink1, topPurple1, topGreen1],
   sizes: ['XS', 'S', 'M', 'L', 'XL'],
   colors: [
-    { name: 'Pink & White', hex: ['#c98a94', '#ffffff'], available: true },
-    { name: 'Purple & White', hex: ['#a893c9', '#ffffff'], available: true },
-  ],
+  { name: 'Pink & White', hex: ['#c98a94', '#ffffff'], available: true, imageIndex: 0 },
+  { name: 'Purple & White', hex: ['#a893c9', '#ffffff'], available: true, imageIndex: 1 },
+  { name: 'Green & White', hex: ['#9caf88', '#ffffff'], available: true, imageIndex: 2 },
+  
+],
 },
   {
     id: 6,
