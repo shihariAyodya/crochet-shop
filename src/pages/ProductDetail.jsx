@@ -125,7 +125,15 @@ function ProductDetail() {
                     }`}
                     style={
                       Array.isArray(color.hex)
-                        ? { background: `linear-gradient(90deg, ${color.hex[0]} 50%, ${color.hex[1]} 50%)` }
+                        ? {
+                            background: `linear-gradient(90deg, ${color.hex
+                              .map((c, i) => {
+                                const start = (i / color.hex.length) * 100;
+                                const end = ((i + 1) / color.hex.length) * 100;
+                                return `${c} ${start}% ${end}%`;
+                              })
+                              .join(', ')})`,
+                          }
                         : { backgroundColor: color.hex }
                     }
                   ></span>
