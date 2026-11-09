@@ -4,7 +4,6 @@
 
 .hs {
   --accent: #c98a94;
-  /* darker version of the accent for text + buttons (better contrast) */
   --accent-strong: color-mix(in srgb, var(--accent) 78%, #3b3532);
   --accent-soft: color-mix(in srgb, var(--accent) 18%, #ffffff);
 
@@ -16,7 +15,6 @@
   align-items: center;
 }
 
-/* Background blobs that take on each slide's colour */
 .hs-bg-blob {
   position: absolute;
   border-radius: 50%;
@@ -148,7 +146,6 @@
   transform: translateY(-3px);
 }
 
-/* Words animate in, one after another */
 @keyframes hsFadeUp {
   from { opacity: 0; transform: translateY(26px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -167,7 +164,6 @@
   max-width: 500px;
 }
 
-/* Arch-shaped frame */
 .hs-frame {
   position: relative;
   aspect-ratio: 4 / 5;
@@ -187,7 +183,6 @@
   object-position: center top;
 }
 
-/* New image wipes in from the right (or left when going back) */
 @keyframes hsWipeFromRight {
   from { clip-path: inset(0 0 0 100%); transform: scale(1.12); }
   to   { clip-path: inset(0 0 0 0);    transform: scale(1); }
@@ -200,7 +195,6 @@
 .hs-from-next { animation: hsWipeFromRight 0.95s cubic-bezier(0.77, 0, 0.18, 1) both; }
 .hs-from-prev { animation: hsWipeFromLeft 0.95s cubic-bezier(0.77, 0, 0.18, 1) both; }
 
-/* Dashed ring peeking out behind the frame */
 .hs-ring {
   position: absolute;
   inset: -22px -22px 40px 40px;
@@ -209,7 +203,6 @@
   transition: border-color 0.8s ease;
 }
 
-/* Floating labels */
 @keyframes hsFloat {
   0%, 100% { transform: translateY(0); }
   50%      { transform: translateY(-8px); }
@@ -294,7 +287,6 @@
   overflow: hidden;
   cursor: pointer;
 }
-/* bigger click area without changing the look */
 .hs-seg::before {
   content: '';
   position: absolute;
@@ -317,9 +309,7 @@
   animation-fill-mode: forwards;
 }
 
-/* ════════════════════════════════════════
-   RESPONSIVE
-   ════════════════════════════════════════ */
+/* ════════ RESPONSIVE ════════ */
 @media (max-width: 1024px) {
   .hs-inner {
     padding: 40px 32px;
@@ -329,7 +319,6 @@
   .hs-chip-2 { right: -10px; }
 }
 
-/* Phones / small tablets: image on top, words below */
 @media (max-width: 820px) {
   .hs {
     min-height: auto;
@@ -380,7 +369,6 @@
   }
 }
 
-/* Respect "reduce motion" settings */
 @media (prefers-reduced-motion: reduce) {
   .hs-anim,
   .hs-from-next,

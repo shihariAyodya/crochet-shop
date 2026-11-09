@@ -7,28 +7,30 @@ import halterPink from '../assets/products/halter-pink.jpg';
 import babyDressPink from '../assets/products/babydress-pink.jpeg';
 import meshtopGreen from '../assets/products/meshtop-green.jpg';
 
+const WHATSAPP_LINK = 'https://wa.me/94705122847';
+
 const slides = [
   {
     id: 1,
     image: heroImage,
     badge: '✨ Handmade in Sri Lanka',
-    title: 'Handmade Crochet,\nHandmade With Love',
+    title: 'Handmade Crochet,\nMade With Love',
     subtitle: 'Cozy, one-of-a-kind pieces crafted just for you.',
     cta: 'Order on WhatsApp',
-    ctaLink: 'https://wa.me/+94705122847',
+    ctaLink: WHATSAPP_LINK,
     ctaExternal: true,
-    accent: 'var(--color-rose)',
+    accent: '#c98a94',
   },
   {
     id: 2,
     image: halterPink,
     badge: '🌸 New Arrivals',
-    title: 'Halter Crop Tops',
+    title: 'Halter\nCrop Tops',
     subtitle: 'Lightweight, stylish crochet tops perfect for sunny days — available in 6 beautiful colors.',
     cta: 'Shop Crop Tops',
     ctaLink: '/products',
     ctaExternal: false,
-    accent: '#C67683',
+    accent: '#c67683',
   },
   {
     id: 3,
@@ -39,7 +41,7 @@ const slides = [
     cta: 'Explore Collection',
     ctaLink: '/products',
     ctaExternal: false,
-    accent: 'var(--color-sage-dark)',
+    accent: '#718c5a',
   },
   {
     id: 4,
@@ -56,144 +58,157 @@ const slides = [
     id: 5,
     image: meshtopGreen,
     badge: '🏖️ Beach Ready',
-    title: 'Ocean Mesh Tops',
+    title: 'Ocean\nMesh Tops',
     subtitle: 'Breezy open-weave crochet mesh tops — perfect layered over a bralette or swimsuit.',
     cta: 'Shop Now',
     ctaLink: '/products',
     ctaExternal: false,
-    accent: 'var(--color-sage)',
+    accent: '#8aa374',
   },
 ];
 
 const AUTO_INTERVAL = 5000;
+const pad = (n) => String(n).padStart(2, '0');
 
 function HeroSlider() {
   const [current, setCurrent] = useState(0);
-  const [animating, setAnimating] = useState(false);
+  const [prev, setPrev] = useState(null);
   const [direction, setDirection] = useState('next');
-  const timerRef = useRef(null);
+  const [paused, setPaused] = useState(false);
+  const touchStartX = useRef(null);
 
-  const goTo = (index, dir = 'next') => {
-    if (animating || index === current) return;
-    setDirection(dir);
-    setAnimating(true);
-    setTimeout(() => {
-      setCurrent(index);
-      setAnimating(false);
-    }, 500);
-  };
-
-  const goNext = () => {
-    const next = (current + 1) % slides.length;
-    goTo(next, 'next');
-  };
-
-  const goPrev = () => {
-    const prev = (current - 1 + slides.length) % slides.length;
-    goTo(prev, 'prev');
-  };
-
-  const resetTimer = () => {
-    clearInterval(timerRef.current);
-    timerRef.current = setInterval(goNext, AUTO_INTERVAL);
-  };
-
+  // Load every slide image up front so the slide-in never shows a blank frame
   useEffect(() => {
-    timerRef.current = setInterval(goNext, AUTO_INTERVAL);
-    return () => clearInterval(timerRef.current);
-  }, [current]);
+    slides.forEach((s) => {
+      const img = new Image();
+      img.src = s.image;
+    });
+  }, []);
+
+  const goTo = (index, dir) => {
+    if (index === current) return;
+    setPrev(current);
+    setDirection(dir ?? (index > current ? 'next' : 'prev'));
+    setCurrent(index);
+  };
+  const goNext = () => goTo((current + 1) % slides.length, 'next');
+  const goPrev = () => goTo((current - 1 + slides.length) % slides.length, 'prev');
+
+  // Swipe on phones
+  const onTouchStart = (e) => { touchStartX.current = e.touches[0].clientX; };
+  const onTouchEnd = (e) => {
+    if (touchStartX.current === null) return;
+    const dx = e.changedTouches[0].clientX - touchStartX.current;
+    if (Math.abs(dx) > 50) (dx < 0 ? goNext : goPrev)();
+    touchStartX.current = null;
+  };
 
   const slide = slides[current];
+  const lines = slide.title.split('\n');
 
   return (
-    <section className="hero-slider">
-      {/* Background Images */}
-      {slides.map((s, i) => (
-        <div
-          key={s.id}
-          className={`hero-slide-bg ${i === current ? 'active' : ''}`}
-          style={{ backgroundImage: `url(${s.image})` }}
-        />
-      ))}
+    <section
+      className="hs"
+      style={{ '--accent': slide.accent }}
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
+      aria-roledescription="carousel"
+    >
+      <div className="hs-bg-blob hs-bg-blob-1" aria-hidden="true" />
+      <div className="hs-bg-blob hs-bg-blob-2" aria-hidden="true" />
 
-      {/* Overlay */}
-      <div className="hero-slider-overlay" />
+      <div className="hs-inner">
+        {/* ── LEFT: words ── */}
+        <div className="hs-text" key={current}>
+          <span className="hs-badge hs-anim" style={{ '--d': '0ms' }}>{slide.badge}</span>
 
-      {/* Content */}
-      <div className={`hero-slider-content ${animating ? `exit-${direction}` : 'enter'}`}>
-        <span className="hero-badge animate-fade-up" style={{ '--delay': '0ms' }}>{slide.badge}</span>
-        <h1 className="hero-title animate-fade-up" style={{ '--delay': '100ms' }}>
-          {slide.title.split('\n').map((line, i) => (
-            <span key={i}>{line}<br /></span>
-          ))}
-        </h1>
-        <p className="hero-subtitle animate-fade-up" style={{ '--delay': '200ms' }}>
-          {slide.subtitle}
-        </p>
-        <div className="hero-cta-row animate-fade-up" style={{ '--delay': '300ms' }}>
-          {slide.ctaExternal ? (
-            <a
-              href={slide.ctaLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hero-cta-btn"
-              style={{ background: slide.accent }}
-            >
-              {slide.cta}
-            </a>
-          ) : (
-            <Link to={slide.ctaLink} className="hero-cta-btn" style={{ background: slide.accent }}>
-              {slide.cta}
-            </Link>
-          )}
-          {!slide.ctaExternal && (
-  <a
-    href="https://wa.me/+94705122847"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="hero-cta-btn hero-cta-outline"
-  >
-    💬 WhatsApp Us
-  </a>
-)}
+          <h1 className="hs-title">
+            {lines.map((line, i) => (
+              <span
+                key={i}
+                className={`hs-title-line hs-anim ${i === lines.length - 1 && lines.length > 1 ? 'hs-title-accent' : ''}`}
+                style={{ '--d': `${80 + i * 90}ms` }}
+              >
+                {line}
+              </span>
+            ))}
+          </h1>
+
+          <p className="hs-subtitle hs-anim" style={{ '--d': '280ms' }}>{slide.subtitle}</p>
+
+          <div className="hs-ctas hs-anim" style={{ '--d': '360ms' }}>
+            {slide.ctaExternal ? (
+              <a href={slide.ctaLink} target="_blank" rel="noopener noreferrer" className="hs-btn hs-btn-primary">
+                {slide.cta} <span aria-hidden="true">→</span>
+              </a>
+            ) : (
+              <Link to={slide.ctaLink} className="hs-btn hs-btn-primary">
+                {slide.cta} <span aria-hidden="true">→</span>
+              </Link>
+            )}
+            {!slide.ctaExternal && (
+              <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="hs-btn hs-btn-outline">
+                💬 WhatsApp Us
+              </a>
+            )}
+          </div>
         </div>
-      </div>
 
-      {/* Nav Arrows */}
-      <button
-        className="hero-arrow hero-arrow-left"
-        onClick={() => { goPrev(); resetTimer(); }}
-        aria-label="Previous slide"
-      >
-        ‹
-      </button>
-      <button
-        className="hero-arrow hero-arrow-right"
-        onClick={() => { goNext(); resetTimer(); }}
-        aria-label="Next slide"
-      >
-        ›
-      </button>
+        {/* ── RIGHT: image ── */}
+        <div className="hs-visual">
+          <div className="hs-ring" aria-hidden="true" />
+          <div className="hs-frame">
+            {prev !== null && (
+              <img key={`under-${prev}`} src={slides[prev].image} alt="" className="hs-img" />
+            )}
+            <img
+              key={`in-${current}`}
+              src={slide.image}
+              alt={slide.title.replace('\n', ' ')}
+              className={`hs-img hs-img-in hs-from-${direction}`}
+            />
+          </div>
 
-      {/* Dots */}
-      <div className="hero-dots">
-        {slides.map((_, i) => (
-          <button
-            key={i}
-            className={`hero-dot ${i === current ? 'active' : ''}`}
-            onClick={() => { goTo(i, i > current ? 'next' : 'prev'); resetTimer(); }}
-            aria-label={`Go to slide ${i + 1}`}
-          />
-        ))}
-      </div>
+          <span className="hs-chip hs-chip-1">🧶 100% Handmade</span>
+          <span className="hs-chip hs-chip-2">💬 Order via WhatsApp</span>
+        </div>
 
-      {/* Progress Bar */}
-      <div className="hero-progress">
-        <div
-          key={current}
-          className="hero-progress-fill"
-          style={{ animationDuration: `${AUTO_INTERVAL}ms` }}
-        />
+        {/* ── Controls ── */}
+        <div className="hs-controls">
+          <div className="hs-arrows">
+            <button className="hs-arrow" onClick={goPrev} aria-label="Previous slide">‹</button>
+            <button className="hs-arrow" onClick={goNext} aria-label="Next slide">›</button>
+          </div>
+
+          <span className="hs-counter">
+            <strong>{pad(current + 1)}</strong> / {pad(slides.length)}
+          </span>
+
+          <div className="hs-segments">
+            {slides.map((s, i) => (
+              <button
+                key={s.id}
+                className={`hs-seg ${i < current ? 'hs-seg-done' : ''}`}
+                onClick={() => goTo(i)}
+                aria-label={`Go to slide ${i + 1}`}
+              >
+                {i === current && (
+                  <span
+                    key={current}
+                    className="hs-seg-fill"
+                    style={{
+                      animationDuration: `${AUTO_INTERVAL}ms`,
+                      animationPlayState: paused ? 'paused' : 'running',
+                    }}
+                    onAnimationEnd={goNext}
+                  />
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );
