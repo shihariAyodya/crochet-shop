@@ -1,10 +1,14 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import Hero from '../components/Hero';
-import Products from '../components/Products';
-import Testimonials from '../components/Testimonials';
+import HeroSlider from '../components/HeroSlider';
+import WhyUs from '../components/WhyUs';
+import FeaturedProducts from '../components/FeaturedProducts';
+import HowItWorks from '../components/HowItWorks';
+import StoryTeaser from '../components/StoryTeaser';
+import TestimonialsSlider from '../components/TestimonialsSlider';
 import RateUs from '../components/RateUs';
 import Contact from '../components/Contact';
+import Reveal from '../components/Reveal';
 
 function Home() {
   const { hash } = useLocation();
@@ -20,11 +24,14 @@ function Home() {
 
   return (
     <>
-      <Hero />
-      <Products />
-      <Testimonials />
-      <RateUs />
-      <Contact />
+      <HeroSlider />
+      <Reveal><FeaturedProducts /></Reveal>
+      <Reveal><HowItWorks /></Reveal>
+      <Reveal><WhyUs /></Reveal>
+      <Reveal><StoryTeaser /></Reveal>
+      <Reveal><TestimonialsSlider /></Reveal>
+      <Reveal><RateUs /></Reveal>
+      <Reveal><Contact /></Reveal>
     </>
   );
 }

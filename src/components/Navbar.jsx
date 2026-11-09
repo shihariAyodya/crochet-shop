@@ -12,7 +12,7 @@ function Navbar() {
     <nav className="navbar">
       <div className="navbar-logo">
         <GiYarn className="navbar-icon" />
-        CrochetOn
+        Shizelle
       </div>
 
       <button
@@ -27,7 +27,7 @@ function Navbar() {
         <li><Link to="/" onClick={closeMenu}>Home</Link></li>
         <li><Link to="/products" onClick={closeMenu}>Products</Link></li>
         <li><Link to="/about" onClick={closeMenu}>About</Link></li>
-        <li><Link to="/#contact" onClick={closeMenu}>Contact</Link></li>
+        <li><Link to="/contact" onClick={closeMenu}>Contact</Link></li>
       </ul>
     </nav>
   );

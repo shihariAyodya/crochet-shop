@@ -11,6 +11,7 @@ function About() {
       <div className="about-content">
         <div className="about-block">
           <h2>How It Started</h2>
+          <h3> hign dij </h3>
           <p>
             CrochetOn began as a small passion project — turning a love for crochet into
             handmade pieces that bring warmth and character to everyday life. Every item is
@@ -26,6 +27,7 @@ function About() {
             colors to the final stitch, everything is done with intention and care.
           </p>
         </div>
+
 
         <div className="about-block">
           <h2>Why Handmade</h2>

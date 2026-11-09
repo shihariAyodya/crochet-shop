@@ -1,4 +1,16 @@
-:root {
+/* Font import must come before Tailwind */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+/*
+  Design tokens.
+  Everything here becomes a Tailwind utility AND stays a CSS variable,
+  so your existing CSS that uses var(--color-rose) etc. keeps working.
+
+  e.g. bg-rose, text-rose-dark, bg-sage-light, border-sage, text-charcoal,
+       bg-cream, font-heading
+*/
+@theme {
   /* Dusty Rose */
   --color-rose-light: #f4dde0;
   --color-rose: #c98a94;
@@ -16,64 +28,82 @@
   --color-white: #ffffff;
 
   /* Typography */
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+  --font-sans: 'Outfit', system-ui, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: 'Outfit', system-ui, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: ui-monospace, Consolas, monospace;
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color: var(--color-charcoal);
-  background: var(--color-cream);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /* Animations → animate-fade-up, animate-fade-in, animate-pop */
+  --animate-fade-up: fade-up 0.4s ease-out both;
+  --animate-fade-in: fade-in 0.2s ease;
+  --animate-pop: pop 0.6s ease;
 
-  @media (max-width: 1024px) {
-    font-size: 16px;
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: none; }
+  }
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  @keyframes pop {
+    0%   { transform: scale(1); }
+    40%  { transform: scale(0.95); }
+    70%  { transform: scale(1.03); }
+    100% { transform: scale(1); }
   }
 }
 
-body {
-  margin: 0;
+/* Aliases so any old CSS using var(--sans) / var(--heading) / var(--mono) still works */
+:root {
+  --sans: var(--font-sans);
+  --heading: var(--font-heading);
+  --mono: var(--font-mono);
 }
 
-#root {
-  width: 100%;
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-}
+@layer base {
+  html {
+    @apply font-sans text-charcoal bg-cream antialiased;
+    font-size: 18px;
+    line-height: 1.45;
+    letter-spacing: 0.18px;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth; /* moved from body: it only works on html */
 
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--color-charcoal);
-}
-
-h1 {
-  font-size: 56px;
-  line-height: 115%;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
+    @media (max-width: 1024px) {
+      font-size: 16px;
+    }
   }
-}
 
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
+  #root {
+    @apply flex flex-col w-full min-h-svh;
   }
-}
 
-p {
-  margin: 0;
+  h1,
+  h2 {
+    @apply font-heading font-medium text-charcoal;
+  }
+
+  h1 {
+    font-size: 56px;
+    line-height: 1.15;
+    letter-spacing: -1.68px;
+    margin: 32px 0;
+
+    @media (max-width: 1024px) {
+      font-size: 36px;
+      margin: 20px 0;
+    }
+  }
+
+  h2 {
+    font-size: 24px;
+    line-height: 1.18;
+    letter-spacing: -0.24px;
+    margin: 0 0 8px;
+
+    @media (max-width: 1024px) {
+      font-size: 20px;
+    }
+  }
 }

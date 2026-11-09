@@ -1,0 +1,255 @@
+/* ── Testimonials Slider ─────────────────────────────── */
+.ts-section {
+  position: relative;
+  padding: 100px 40px;
+  background: linear-gradient(135deg, #fdf4f5 0%, #f0f5ee 100%);
+  overflow: hidden;
+  text-align: center;
+}
+
+/* Decorative blobs */
+.ts-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+
+.ts-section.ts-visible .ts-blob {
+  opacity: 1;
+}
+
+.ts-blob-1 {
+  width: 380px;
+  height: 380px;
+  background: rgba(201, 138, 148, 0.18);
+  top: -80px;
+  left: -60px;
+}
+
+.ts-blob-2 {
+  width: 300px;
+  height: 300px;
+  background: rgba(156, 175, 136, 0.18);
+  bottom: -60px;
+  right: -40px;
+}
+
+/* Header */
+.ts-header {
+  margin-bottom: 60px;
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.ts-section.ts-visible .ts-header {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.ts-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--color-sage-dark);
+}
+
+.ts-heading {
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 700;
+  color: var(--color-dusty-pink-dark);
+  margin: 8px 0 14px;
+  letter-spacing: -0.6px;
+}
+
+.ts-subtext {
+  color: #7a6b65;
+  font-size: 16px;
+}
+
+/* Track */
+.ts-track-wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  height: 340px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ts-track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Cards */
+.ts-card {
+  position: absolute;
+  background: #fff;
+  border-radius: 24px;
+  padding: 36px 32px;
+  width: 400px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+  transition: all 0.55s cubic-bezier(0.34, 1.2, 0.64, 1);
+  cursor: pointer;
+  text-align: left;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.ts-card-left {
+  transform: translateX(-420px) scale(0.86);
+  opacity: 0.45;
+  pointer-events: auto;
+  z-index: 1;
+}
+
+.ts-card-active {
+  transform: translateX(0) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 3;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.14);
+}
+
+.ts-card-right {
+  transform: translateX(420px) scale(0.86);
+  opacity: 0.45;
+  pointer-events: auto;
+  z-index: 1;
+}
+
+.ts-card-hidden {
+  opacity: 0;
+  transform: scale(0.7);
+  pointer-events: none;
+}
+
+/* Quote icon */
+.ts-quote {
+  font-size: 52px;
+  line-height: 1;
+  color: var(--color-rose-light);
+  margin-bottom: 4px;
+  font-family: Georgia, serif;
+}
+
+/* Stars */
+.ts-stars {
+  margin-bottom: 12px;
+  font-size: 18px;
+}
+.ts-star-filled { color: #f5a623; }
+.ts-star-empty { color: #ddd; }
+
+.ts-text {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #5a4e4a;
+  font-style: italic;
+  margin-bottom: 24px;
+}
+
+.ts-footer {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.ts-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ts-name {
+  font-weight: 700;
+  color: var(--color-charcoal);
+  font-size: 14px;
+}
+
+.ts-product {
+  font-size: 12px;
+  color: var(--color-sage-dark);
+  margin-top: 2px;
+}
+
+/* Dots */
+.ts-dots {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 40px;
+  position: relative;
+  z-index: 1;
+}
+
+.ts-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid var(--color-rose);
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.ts-dot.active {
+  background: var(--color-rose);
+  width: 26px;
+  border-radius: 6px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .ts-card {
+    width: 320px;
+    padding: 28px 24px;
+  }
+  .ts-card-left {
+    transform: translateX(-340px) scale(0.85);
+  }
+  .ts-card-right {
+    transform: translateX(340px) scale(0.85);
+  }
+  .ts-track-wrap {
+    height: 300px;
+  }
+}
+
+@media (max-width: 640px) {
+  .ts-section {
+    padding: 70px 20px;
+  }
+  .ts-card-left,
+  .ts-card-right {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .ts-card {
+    width: min(340px, 90vw);
+  }
+  .ts-track-wrap {
+    height: 320px;
+  }
+}
