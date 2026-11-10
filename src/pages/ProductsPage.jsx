@@ -12,6 +12,9 @@ const categoryEmojis = {
   Baby: '👶',
 };
 
+// Total tiles on the "All" view: real products first, then "Coming soon" tiles
+const TOTAL_TILES = 15;
+
 function ProductsPage() {
   const [activeCategory, setActiveCategory] = useState('All');
   const [search, setSearch] = useState('');
@@ -27,6 +30,12 @@ function ProductsPage() {
     const matchSearch = p.name.toLowerCase().includes(search.toLowerCase());
     return matchCat && matchSearch;
   });
+
+  // Blank tiles only on the "All" view with no search, so filters stay accurate
+  const blanks =
+    activeCategory === 'All' && !search
+      ? Math.max(0, TOTAL_TILES - filteredProducts.length)
+      : 0;
 
   const getCategoryCount = (cat) =>
     cat === 'All' ? products.length : products.filter((p) => p.category === cat).length;
@@ -127,7 +136,7 @@ function ProductsPage() {
                     <img
                       src={product.images[0]}
                       alt={product.name}
-                      className={`pp-card-img pp-img-primary ${hoveredId === product.id ? 'pp-fade-out' : ''}`}
+                      className={`pp-card-img pp-img-primary ${hoveredId === product.id && product.images[1] ? 'pp-fade-out' : ''}`}
                     />
                     {product.images[1] && (
                       <img
@@ -196,6 +205,25 @@ function ProductsPage() {
             </Link>
           ))
         )}
+
+        {/* ── "Coming soon" placeholder tiles ── */}
+        {Array.from({ length: blanks }).map((_, b) => (
+          <div
+            key={`blank-${b}`}
+            className="pp-card pp-blank-card"
+            style={{ '--card-delay': `${Math.min((filteredProducts.length + b) * 80, 480)}ms` }}
+            aria-hidden="true"
+          >
+            <div className="pp-card-img-wrap pp-blank-image">
+              <span className="pp-blank-icon">🧶</span>
+              <span className="pp-blank-label">Coming soon</span>
+            </div>
+            <div className="pp-card-info">
+              <span className="pp-blank-bar" />
+              <span className="pp-blank-bar pp-blank-bar-sm" />
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
