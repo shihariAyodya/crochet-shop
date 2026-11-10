@@ -3,18 +3,25 @@ import { Link } from 'react-router-dom';
 import './FeaturedProducts.css';
 import { products } from '../data/products';
 
+const TOTAL_TILES = 10; // real products first, the rest are "Coming soon" tiles
+
 function FeaturedProducts() {
   const [visible, setVisible] = useState(false);
   const [hoveredId, setHoveredId] = useState(null);
   const sectionRef = useRef(null);
 
-  // Filter to products with real images
-  const featured = products.filter(p => Array.isArray(p.images)).slice(0, 4);
+  // Only products that actually have a photo
+  const featured = products
+    .filter((p) => Array.isArray(p.images) && p.images.length > 0)
+    .slice(0, TOTAL_TILES);
+
+  // Empty tiles to fill the grid up to TOTAL_TILES
+  const blanks = Math.max(0, TOTAL_TILES - featured.length);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => { if (entry.isIntersecting) setVisible(true); },
-      { threshold: 0.15 }
+      { threshold: 0.1 }
     );
     if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
@@ -34,21 +41,22 @@ function FeaturedProducts() {
             key={product.id}
             to={`/products/${product.id}`}
             className="fp-card"
-            style={{ '--card-delay': `${i * 120}ms` }}
+            style={{ '--card-delay': `${i * 70}ms` }}
             onMouseEnter={() => setHoveredId(product.id)}
             onMouseLeave={() => setHoveredId(null)}
           >
             <div className="fp-card-image-wrap">
-              {/* Primary + hover image */}
               <img
                 src={product.images[0]}
                 alt={product.name}
-                className={`fp-card-img fp-card-img-primary ${hoveredId === product.id ? 'fade-out' : ''}`}
+                loading="lazy"
+                className={`fp-card-img fp-card-img-primary ${hoveredId === product.id && product.images[1] ? 'fade-out' : ''}`}
               />
               {product.images[1] && (
                 <img
                   src={product.images[1]}
-                  alt={`${product.name} alternate`}
+                  alt=""
+                  loading="lazy"
                   className={`fp-card-img fp-card-img-hover ${hoveredId === product.id ? 'fade-in' : ''}`}
                 />
               )}
@@ -61,29 +69,31 @@ function FeaturedProducts() {
 
             <div className="fp-card-info">
               <span className="fp-card-category">{product.category}</span>
-              <h3 className="fp-card-name">{product.name}</h3>
-              <div className="fp-card-footer">
+              <div className="fp-card-row">
+                <h3 className="fp-card-name" title={product.name}>{product.name}</h3>
                 <span className="fp-card-price">{product.price || Object.values(product.prices || {})[0]}</span>
-                <div className="fp-color-dots">
-                  {product.colors?.slice(0, 4).map((c, ci) => (
-                    <span
-                      key={ci}
-                      className="fp-color-dot"
-                      title={c.name}
-                      style={{
-                        background: Array.isArray(c.hex)
-                          ? `linear-gradient(135deg, ${c.hex[0]} 50%, ${c.hex[1]} 50%)`
-                          : c.hex,
-                      }}
-                    />
-                  ))}
-                  {(product.colors?.length || 0) > 4 && (
-                    <span className="fp-color-more">+{product.colors.length - 4}</span>
-                  )}
-                </div>
               </div>
             </div>
           </Link>
+        ))}
+
+        {/* Placeholder tiles (no image) */}
+        {Array.from({ length: blanks }).map((_, b) => (
+          <div
+            key={`blank-${b}`}
+            className="fp-card fp-blank-card"
+            style={{ '--card-delay': `${(featured.length + b) * 70}ms` }}
+            aria-hidden="true"
+          >
+            <div className="fp-card-image-wrap fp-blank-image">
+              <span className="fp-blank-icon">🧶</span>
+              <span className="fp-blank-label">Coming soon</span>
+            </div>
+            <div className="fp-card-info">
+              <span className="fp-blank-bar fp-blank-bar-sm" />
+              <span className="fp-blank-bar" />
+            </div>
+          </div>
         ))}
       </div>
 
@@ -91,7 +101,7 @@ function FeaturedProducts() {
         <Link to="/products" className="fp-view-all-btn">
           View Full Collection
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-            <path d="M5 12h14M12 5l7 7-7 7"/>
+            <path d="M5 12h14M12 5l7 7-7 7" />
           </svg>
         </Link>
       </div>

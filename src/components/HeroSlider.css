@@ -192,8 +192,8 @@
   to   { clip-path: inset(0 0 0 0);    transform: scale(1); }
 }
 .hs-img-in { z-index: 1; }
-.hs-from-next { animation: hsWipeFromRight 0.95s cubic-bezier(0.77, 0, 0.18, 1) both; }
-.hs-from-prev { animation: hsWipeFromLeft 0.95s cubic-bezier(0.77, 0, 0.18, 1) both; }
+.hs-from-next { animation: hsWipeFromRight 0.6s cubic-bezier(0.77, 0, 0.18, 1) both; }
+.hs-from-prev { animation: hsWipeFromLeft 0.6s cubic-bezier(0.77, 0, 0.18, 1) both; }
 
 .hs-ring {
   position: absolute;
