@@ -1,5 +1,6 @@
+'use client';
+
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 import HeroSlider from '../components/HeroSlider';
 import WhyUs from '../components/WhyUs';
 import FeaturedProducts from '../components/FeaturedProducts';
@@ -11,16 +12,21 @@ import Contact from '../components/Contact';
 import Reveal from '../components/Reveal';
 
 function Home() {
-  const { hash } = useLocation();
-
   useEffect(() => {
-    if (hash) {
-      const element = document.querySelector(hash);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
+    const scrollToHash = () => {
+      const hash = window.location.hash;
+      if (hash) {
+        const element = document.querySelector(hash);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
       }
-    }
-  }, [hash]);
+    };
+
+    scrollToHash();
+    window.addEventListener('hashchange', scrollToHash);
+    return () => window.removeEventListener('hashchange', scrollToHash);
+  }, []);
 
   return (
     <>

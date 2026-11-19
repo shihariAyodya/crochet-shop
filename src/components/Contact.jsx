@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react';
 import './Contact.css';
 import { FaWhatsapp, FaFacebookF, FaArrowRight } from 'react-icons/fa';

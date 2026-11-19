@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { products } from '../data/products';
 
 // "CropTops" → "Crop Tops"
@@ -30,7 +30,7 @@ export default function ShopByCategory() {
           {categories.map((c) => (
             <Link
               key={c.name}
-              to={`/products?category=${encodeURIComponent(c.name)}`}
+              href={`/products?category=${encodeURIComponent(c.name)}`}
               className="group flex w-28 shrink-0 snap-start flex-col items-center text-center sm:w-36"
             >
               <div className="relative mb-3 size-28 overflow-hidden rounded-full bg-linear-to-br from-sage-light to-rose-light ring-4 ring-white shadow-[0_8px_24px_rgba(0,0,0,0.08)] transition duration-300 group-hover:-translate-y-1 group-hover:ring-rose-light group-hover:shadow-[0_14px_32px_rgba(165,99,111,0.25)] sm:size-36">
