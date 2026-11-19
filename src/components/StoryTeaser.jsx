@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { products } from '../data/products';
 
 // Uses two of your product photos. Swap in your own workspace / yarn photos if you have them.
@@ -48,7 +48,7 @@ export default function StoryTeaser() {
             We make every order just for you, in the size and colours you choose.
           </p>
           <Link
-            to="/about"
+            href="/about"
             className="inline-flex items-center gap-2 rounded-full border-2 border-rose-dark px-7 py-3 font-semibold text-rose-dark transition hover:bg-rose-dark hover:text-white"
           >
             Read our story <span aria-hidden="true">→</span>

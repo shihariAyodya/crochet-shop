@@ -1,5 +1,7 @@
+'use client';
+
 import { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import './FeaturedProducts.css';
 import { products } from '../data/products';
 
@@ -39,7 +41,7 @@ function FeaturedProducts() {
         {featured.map((product, i) => (
           <Link
             key={product.id}
-            to={`/products/${product.id}`}
+            href={`/products/${product.id}`}
             className="fp-card"
             style={{ '--card-delay': `${i * 70}ms` }}
             onMouseEnter={() => setHoveredId(product.id)}
@@ -98,7 +100,7 @@ function FeaturedProducts() {
       </div>
 
       <div className="fp-view-all">
-        <Link to="/products" className="fp-view-all-btn">
+        <Link href="/products" className="fp-view-all-btn">
           View Full Collection
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
             <path d="M5 12h14M12 5l7 7-7 7" />

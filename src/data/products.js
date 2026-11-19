@@ -16,36 +16,23 @@ import babyDressPink from '../assets/products/babydress-pink.jpeg';
 import babyDressYellow from '../assets/products/babydress-yellow.jpeg';
 import babyDressGreen from '../assets/products/babydress-green.jpeg';
 
+const toSrc = (img) => (img && typeof img === 'object' && img.src ? img.src : img);
 
-
-export const products = [
+const rawProducts = [
   {
-  id: 1,
-  name: 'Ocean Mesh Top',
-  category: 'Meshtops',
-  price: 'Rs. 2,800',
-  description: 'A breezy, open-weave crochet mesh top — perfect layered over a bralette or swimsuit.',
-  images: [meshtopGreen, meshtopWhite, meshtopBlack],
-  sizes: ['S', 'M', 'L'],
-  colors: [
-    { name: 'Cream', hex: '#faf6f2', available: true, imageIndex: 1 },
-    { name: 'Sage Green', hex: '#9caf88', available: true, imageIndex: 0 },
-    { name: 'Black', hex: '#c98a94', available: false, imageIndex: 2 },
-  ],
-},
-  /*{
-    id: 2,
-    name: 'Sunset Mesh Top',
+    id: 1,
+    name: 'Ocean Mesh Top',
     category: 'Meshtops',
-    price: 'Rs. 2,900',
-    description: 'A lightweight patterned mesh top with delicate open stitching, great for a beach day or casual outing.',
-    images: 3,
+    price: 'Rs. 2,800',
+    description: 'A breezy, open-weave crochet mesh top — perfect layered over a bralette or swimsuit.',
+    images: [meshtopGreen, meshtopWhite, meshtopBlack],
     sizes: ['S', 'M', 'L'],
     colors: [
-      { name: 'Terracotta', hex: '#c1694f', available: true },
-      { name: 'Dusty Rose', hex: '#c98a94', available: true },
+      { name: 'Cream', hex: '#faf6f2', available: true, imageIndex: 1 },
+      { name: 'Sage Green', hex: '#9caf88', available: true, imageIndex: 0 },
+      { name: 'Black', hex: '#c98a94', available: false, imageIndex: 2 },
     ],
-  },*/
+  },
   {
     id: 3,
     name: 'Halter Crop Top',
@@ -64,18 +51,18 @@ export const products = [
     ],
   },
   {
-  id: 4,
-  name: 'Granny Square Cardigan',
-  category: 'Cardigans',
-  price: 'Rs. 4,800',
-  description: 'A classic granny-square patterned cardigan, handmade with a mix of warm earthy tones.',
-  images: [grannyBlue],
-  sizes: ['XS', 'S', 'M', 'L', 'XL'],
-  colors: [
-    { name: 'Multicolor', hex: ['#FDFBF7', '#0B2545', '#A9D6E5'], available: true, imageIndex: 0 },
-    { name: 'Neutral Tones', hex: '#d8c3a5', available: false },
-  ],
-},
+    id: 4,
+    name: 'Granny Square Cardigan',
+    category: 'Cardigans',
+    price: 'Rs. 4,800',
+    description: 'A classic granny-square patterned cardigan, handmade with a mix of warm earthy tones.',
+    images: [grannyBlue],
+    sizes: ['XS', 'S', 'M', 'L', 'XL'],
+    colors: [
+      { name: 'Multicolor', hex: ['#FDFBF7', '#0B2545', '#A9D6E5'], available: true, imageIndex: 0 },
+      { name: 'Neutral Tones', hex: '#d8c3a5', available: false },
+    ],
+  },
   {
     id: 5,
     name: 'Striped Crochet Meshtop',
@@ -123,19 +110,24 @@ export const products = [
     ],
   },
   {
-  id: 8,
-  name: 'Baby Dresses',
-  category: 'Baby',
-  price: 'Rs. 2,400',
-  description: 'A charming crochet baby dress featuring playful detailing, made with soft, breathable cotton yarn.',
-  images: [babyDresPurple, babyDressCream, babyDressPink, babyDressYellow, babyDressGreen],
-  sizes: ['S', 'M', 'L'],
-  colors: [
-    { name: 'Purple', hex: '#a893c9', available: true, imageIndex: 0 },
-    { name: 'Cream', hex: '#faf6f2', available: true, imageIndex: 1 },
-    { name: 'Pink', hex: '#c98a94', available: true, imageIndex: 2 },
-    { name: 'Yellow', hex: '#e6b223', available: true, imageIndex: 3 },
-    { name: 'Green', hex: '#9caf88', available: true, imageIndex: 4 },
-  ],
-},
+    id: 8,
+    name: 'Baby Dresses',
+    category: 'Baby',
+    price: 'Rs. 2,400',
+    description: 'A charming crochet baby dress featuring playful detailing, made with soft, breathable cotton yarn.',
+    images: [babyDresPurple, babyDressCream, babyDressPink, babyDressYellow, babyDressGreen],
+    sizes: ['S', 'M', 'L'],
+    colors: [
+      { name: 'Purple', hex: '#a893c9', available: true, imageIndex: 0 },
+      { name: 'Cream', hex: '#faf6f2', available: true, imageIndex: 1 },
+      { name: 'Pink', hex: '#c98a94', available: true, imageIndex: 2 },
+      { name: 'Yellow', hex: '#e6b223', available: true, imageIndex: 3 },
+      { name: 'Green', hex: '#9caf88', available: true, imageIndex: 4 },
+    ],
+  },
 ];
+
+export const products = rawProducts.map((p) => ({
+  ...p,
+  images: Array.isArray(p.images) ? p.images.map(toSrc) : p.images,
+}));

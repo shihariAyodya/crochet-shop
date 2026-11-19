@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import './Products.css';
 import { products } from '../data/products';
 
@@ -10,7 +10,7 @@ function Products() {
       <h2>Featured Products</h2>
       <div className="products-grid">
         {featured.map((product) => (
-          <Link to={`/products/${product.id}`} className="product-card" key={product.id}>
+          <Link href={`/products/${product.id}`} className="product-card" key={product.id}>
             {Array.isArray(product.images) ? (
               <img src={product.images[0]} alt={product.name} className="product-card-image" />
             ) : (

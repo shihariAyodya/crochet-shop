@@ -13,8 +13,14 @@ const outfit = Outfit({
 });
 
 export const metadata = {
+  metadataBase: new URL('https://shizelle.com'),
   title: 'Shizelle — Handmade Crochet',
-  description: 'Handmade crochet pieces, made with love in Sri Lanka.',
+  description: 'Handmade crochet pieces, made with love in Sri Lanka. Every item is made to order, just for you.',
+  openGraph: {
+    title: 'Shizelle — Handmade Crochet',
+    description: 'Handmade crochet pieces, made with love in Sri Lanka.',
+    type: 'website',
+  },
 };
 
 export default function RootLayout({ children }) {
@@ -31,4 +37,3 @@ export default function RootLayout({ children }) {
     </html>
   );
 }
-

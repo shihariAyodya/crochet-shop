@@ -2,10 +2,11 @@ import './Hero.css';
 import heroImage from '../assets/coverpage.png';
 
 function Hero() {
+  const bgImg = heroImage?.src || heroImage;
   return (
     <section
       className="hero"
-      style={{ backgroundImage: `url(${heroImage})` }}
+      style={{ backgroundImage: `url(${bgImg})` }}
     >
       <div className="hero-overlay"></div>
       <div className="hero-content">
@@ -15,7 +16,8 @@ function Hero() {
           Cozy, one-of-a-kind pieces crafted just for you ,<br />browse the collection and order directly on WhatsApp.
         </p>
         
-          <a href="https://wa.me/+94705122847"
+        <a
+          href="https://wa.me/+94705122847"
           target="_blank"
           rel="noopener noreferrer"
           className="hero-button"

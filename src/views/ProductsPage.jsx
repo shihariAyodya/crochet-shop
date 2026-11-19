@@ -1,5 +1,7 @@
+'use client';
+
 import { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { products } from '../data/products';
 import './ProductsPage.css';
 
@@ -123,7 +125,7 @@ function ProductsPage() {
           filteredProducts.map((product, i) => (
             <Link
               key={product.id}
-              to={`/products/${product.id}`}
+              href={`/products/${product.id}`}
               className="pp-card"
               style={{ '--card-delay': `${Math.min(i * 80, 480)}ms` }}
               onMouseEnter={() => setHoveredId(product.id)}

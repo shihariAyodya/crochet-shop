@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 const steps = [
   {
@@ -52,7 +52,7 @@ export default function HowItWorks() {
 
         <div className="mt-12 text-center">
           <Link
-            to="/products"
+            href="/products"
             className="inline-flex items-center gap-2 rounded-full bg-sage-dark px-8 py-3.5 font-semibold text-white shadow-[0_8px_20px_rgba(113,140,90,0.3)] transition hover:-translate-y-0.5 hover:bg-charcoal"
           >
             Start shopping <span aria-hidden="true">→</span>
