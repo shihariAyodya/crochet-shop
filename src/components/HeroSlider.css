@@ -309,6 +309,19 @@
   animation-fill-mode: forwards;
 }
 
+/* ── Soft fade at the bottom into the white section below ── */
+.hs::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 120px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #ffffff 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
 /* ════════ RESPONSIVE ════════ */
 @media (max-width: 1024px) {
   .hs-inner {

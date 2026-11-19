@@ -1,7 +1,7 @@
 /* ── Featured Products (compact tiles) ─────────────────── */
 .featured-products {
   padding: 48px clamp(20px, 4vw, 64px);
-  background: linear-gradient(180deg, #fff 0%, var(--color-rose-light) 100%);
+  background: linear-gradient(180deg, #fff 0%, #faf6f2 100%);
   text-align: center;
 }
 

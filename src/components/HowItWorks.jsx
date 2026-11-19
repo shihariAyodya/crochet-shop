@@ -20,7 +20,7 @@ const steps = [
 
 export default function HowItWorks() {
   return (
-    <section className="bg-sage-light px-5 py-16 lg:py-20">
+    <section className="px-5 py-16 lg:py-20" style={{ background: '#faf6f2' }}>
       <div className="mx-auto max-w-[1100px]">
         <p className="mb-2 text-center text-xs font-bold uppercase tracking-[3px] text-sage-dark">
           Simple &amp; personal
