@@ -16,7 +16,7 @@ function Footer() {
       <div className="ft-cta">
         <div className="ft-cta-text">
           <h3>Have something special in mind?</h3>
-          <p>Custom colours, sizes and designs — just send us a message.</p>
+          <p>Custom colours, sizes or designs? Just send us a message.</p>
         </div>
         <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="ft-cta-btn">
           <FaWhatsapp /> Chat on WhatsApp
