@@ -1,5 +1,5 @@
 import './Footer.css';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { FaWhatsapp, FaFacebookF, FaArrowRight } from 'react-icons/fa';
 import { MdEmail } from 'react-icons/md';
 
@@ -26,7 +26,7 @@ function Footer() {
       {/* ── Main columns ── */}
       <div className="ft-main">
         <div className="ft-brand">
-          <Link to="/" className="ft-logo">
+          <Link href="/" className="ft-logo">
             <span aria-hidden="true">🧶</span> {BRAND}
           </Link>
           <p>Handmade crochet pieces, made with love in Sri Lanka. Every item is made to order, just for you.</p>
@@ -46,10 +46,10 @@ function Footer() {
         <div className="ft-col">
           <h4>Explore</h4>
           <ul>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/products">Products</Link></li>
-            <li><Link to="/about">About</Link></li>
-            <li><Link to="/#contact">Contact</Link></li>
+            <li><Link href="/">Home</Link></li>
+            <li><Link href="/products">Products</Link></li>
+            <li><Link href="/about">About</Link></li>
+            <li><Link href="/#contact">Contact</Link></li>
           </ul>
         </div>
 
@@ -81,7 +81,7 @@ function Footer() {
             <li>Choose size &amp; colour</li>
             <li>Order on WhatsApp</li>
           </ol>
-          <Link to="/products" className="ft-shop-link">
+          <Link href="/products" className="ft-shop-link">
             Shop now <FaArrowRight />
           </Link>
         </div>

@@ -1,5 +1,7 @@
+'use client';
+
 import { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import './HeroSlider.css';
 import heroImage from '../assets/coverpageNew.jpg';
 import topPink1 from '../assets/products/top-pink-white-1.png.png';
@@ -80,7 +82,7 @@ function HeroSlider() {
   useEffect(() => {
     slides.forEach((s) => {
       const img = new Image();
-      img.src = s.image;
+      img.src = typeof s.image === 'string' ? s.image : s.image.src;
     });
   }, []);
 
@@ -114,6 +116,7 @@ function HeroSlider() {
 
   const slide = slides[current];
   const lines = slide.title.split('\n');
+  const imgSrc = (img) => typeof img === 'string' ? img : img.src;
 
   return (
     <section
@@ -152,7 +155,7 @@ function HeroSlider() {
                 {slide.cta} <span aria-hidden="true">→</span>
               </a>
             ) : (
-              <Link to={slide.ctaLink} className="hs-btn hs-btn-primary">
+              <Link href={slide.ctaLink} className="hs-btn hs-btn-primary">
                 {slide.cta} <span aria-hidden="true">→</span>
               </Link>
             )}
@@ -169,11 +172,11 @@ function HeroSlider() {
           <div className="hs-ring" aria-hidden="true" />
           <div className="hs-frame">
             {prev !== null && (
-              <img key={`under-${prev}`} src={slides[prev].image} alt="" className="hs-img" />
+              <img key={`under-${prev}`} src={imgSrc(slides[prev].image)} alt="" className="hs-img" />
             )}
             <img
               key={`in-${current}`}
-              src={slide.image}
+              src={imgSrc(slide.image)}
               alt={slide.title.replace('\n', ' ')}
               className={`hs-img hs-img-in hs-from-${direction}`}
             />

@@ -1,6 +1,8 @@
+'use client';
+
 import { useState } from 'react';
 import './Navbar.css';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { GiYarn } from 'react-icons/gi';
 
 function Navbar() {
@@ -24,10 +26,10 @@ function Navbar() {
       </button>
 
       <ul className={`navbar-links ${isOpen ? 'open' : ''}`}>
-        <li><Link to="/" onClick={closeMenu}>Home</Link></li>
-        <li><Link to="/products" onClick={closeMenu}>Products</Link></li>
-        <li><Link to="/about" onClick={closeMenu}>About</Link></li>
-        <li><Link to="/contact" onClick={closeMenu}>Contact</Link></li>
+        <li><Link href="/" onClick={closeMenu}>Home</Link></li>
+        <li><Link href="/products" onClick={closeMenu}>Products</Link></li>
+        <li><Link href="/about" onClick={closeMenu}>About</Link></li>
+        <li><Link href="/contact" onClick={closeMenu}>Contact</Link></li>
       </ul>
     </nav>
   );
