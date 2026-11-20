@@ -24,7 +24,8 @@
   align-items: center;
   width: 100%;
   margin: 0 auto;
-  padding: 14px 40px;
+  /* space on the left and right: grows with the screen, between 24px and 260px */
+  padding: 14px clamp(24px, 12vw, 260px);
   box-sizing: border-box;
   background-color: #ffffff;
   border: 1px solid transparent;
@@ -50,6 +51,9 @@
   -webkit-backdrop-filter: blur(14px) saturate(160%);
   backdrop-filter: blur(14px) saturate(160%);
   box-shadow: 0 12px 34px rgba(59, 53, 50, 0.14);
+  /* the floating pill is already narrower, so it needs less side space */
+  padding-left: 32px;
+  padding-right: 32px;
 }
 
 /* ── Logo (left) ── */
@@ -192,6 +196,8 @@
   .nav-wrap.is-scrolled .navbar {
     width: calc(100% - 20px);
     transform: translateY(10px);
+    padding-left: 18px;
+    padding-right: 18px;
   }
 
   .navbar-logo-img {
