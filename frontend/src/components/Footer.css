@@ -63,37 +63,43 @@
   box-shadow: 0 12px 26px rgba(0, 0, 0, 0.22);
 }
 
-/* ── Main columns ── */
+/* ── One row: logo | description | social ── */
 .ft-main {
   max-width: 1120px;
   margin: 0 auto;
-  padding: 8px 0 44px;
+  padding: 8px 0 36px;
   display: grid;
-  grid-template-columns: 1.4fr 0.8fr 1.1fr 1fr;
-  gap: 40px;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 32px;
 }
 
 .ft-logo {
+  justify-self: start;
   display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 26px;
-  font-weight: 700;
-  color: #fff;
   text-decoration: none;
-  margin-bottom: 12px;
 }
 
-.ft-brand p {
-  margin: 0 0 20px;
-  max-width: 300px;
+/* Logo image size: change 56px to make it bigger or smaller */
+.ft-logo .ft-logo-img {
+  display: block;
+  height: 56px;
+  width: auto;
+  max-width: 100%;
+}
+
+.ft-desc {
+  margin: 0;
+  max-width: 420px;
+  text-align: center;
   font-size: 14.5px;
   line-height: 1.65;
 }
 
 .ft-social {
+  justify-self: end;
   display: flex;
-  gap: 10px;
+  gap: 12px;
 }
 
 .ft-social a {
@@ -114,84 +120,6 @@
   transform: translateY(-3px);
   background: var(--color-rose);
   border-color: var(--color-rose);
-}
-
-.ft-col h4 {
-  margin: 6px 0 16px;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 1.8px;
-  text-transform: uppercase;
-  color: #fff;
-}
-
-.ft-col ul,
-.ft-col ol {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 11px;
-}
-
-.ft-col a {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 14.5px;
-  color: rgba(255, 255, 255, 0.72);
-  text-decoration: none;
-  transition: color 0.2s ease, transform 0.2s ease;
-}
-
-.ft-col a:hover {
-  color: #fff;
-  transform: translateX(3px);
-}
-
-.ft-contact svg {
-  font-size: 16px;
-  color: var(--color-rose);
-  flex-shrink: 0;
-}
-
-/* Numbered "how to order" steps */
-.ft-steps {
-  counter-reset: step;
-}
-
-.ft-steps li {
-  counter-increment: step;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 14.5px;
-}
-
-.ft-steps li::before {
-  content: counter(step);
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 11px;
-  font-weight: 700;
-  color: #2f2a27;
-  background: var(--color-sage-light);
-  flex-shrink: 0;
-}
-
-.ft-col .ft-shop-link {
-  margin-top: 16px;
-  color: var(--color-rose);
-  font-weight: 700;
-}
-
-.ft-shop-link svg {
-  font-size: 12px;
 }
 
 /* ── Bottom bar ── */
@@ -216,15 +144,26 @@
   color: var(--color-rose);
 }
 
-/* ── Responsive ── */
-@media (max-width: 960px) {
+/* ── Tablets and phones: stack in the centre ── */
+@media (max-width: 768px) {
   .ft-main {
-    grid-template-columns: 1fr 1fr;
-    gap: 32px;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 16px;
+    padding-bottom: 30px;
   }
 
-  .ft-brand {
-    grid-column: 1 / -1;
+  .ft-logo,
+  .ft-social {
+    justify-self: center;
+  }
+
+  .ft-logo .ft-logo-img {
+    height: 48px;
+  }
+
+  .ft-desc {
+    font-size: 14px;
   }
 }
 
@@ -254,63 +193,10 @@
     font-size: 14px;
   }
 
-  /* Two columns side by side, left aligned (like desktop) */
-  .ft-main {
-    grid-template-columns: 1fr 1fr;
-    gap: 28px 20px;
-    padding-bottom: 32px;
-    text-align: left;
-  }
-
-  .ft-brand {
-    grid-column: 1 / -1;
-  }
-
-  .ft-brand p {
-    max-width: none;
-    font-size: 14px;
-    margin-bottom: 16px;
-  }
-
-  .ft-logo {
-    font-size: 23px;
-  }
-
-  /* Explore | How to order on one row, Get in touch full width below */
-  .ft-main>.ft-col:nth-child(2) {
-    order: 1;
-  }
-
-  .ft-main>.ft-col:nth-child(4) {
-    order: 2;
-  }
-
-  .ft-main>.ft-col:nth-child(3) {
-    order: 3;
-    grid-column: 1 / -1;
-  }
-
-  .ft-col h4 {
-    margin: 0 0 12px;
-    font-size: 12px;
-  }
-
-  .ft-col ul,
-  .ft-col ol {
-    gap: 9px;
-  }
-
-  .ft-col a,
-  .ft-steps li {
-    font-size: 14px;
-  }
-
-  .ft-col .ft-shop-link {
-    margin-top: 12px;
-  }
-
   .ft-bottom {
     flex-direction: column;
+    align-items: center;
+    text-align: center;
     gap: 4px;
     font-size: 12.5px;
     padding: 16px 0 22px;

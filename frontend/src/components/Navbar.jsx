@@ -3,8 +3,8 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { GiYarn } from 'react-icons/gi';
 import './Navbar.css';
+import logo from '../assets/logoo.png';
 
 const links = [
   { href: '/', label: 'Home' },
@@ -51,9 +51,8 @@ function Navbar() {
       <div className="nav-spacer" style={{ height: navHeight }} aria-hidden="true" />
       <div className={`nav-wrap ${scrolled ? 'is-scrolled' : ''}`}>
         <nav className="navbar" ref={navRef}>
-          <Link href="/" className="navbar-logo">
-            <GiYarn className="navbar-icon" />
-            Shizelle
+          <Link href="/" className="navbar-logo" aria-label="Shizelle home">
+            <img src={logo.src} alt="Shizelle" className="navbar-logo-img" />
           </Link>
 
           <button

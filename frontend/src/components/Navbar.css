@@ -181,3 +181,21 @@
     transition: none;
   }
 }
+
+/* ── Image logo ── */
+.navbar-logo-img {
+  display: block;
+  height: 46px;
+  width: auto;
+  transition: height 0.3s ease;
+}
+
+.nav-wrap.is-scrolled .navbar-logo-img {
+  height: 38px;
+}
+
+@media (max-width: 768px) {
+  .navbar-logo-img {
+    height: 38px;
+  }
+}
