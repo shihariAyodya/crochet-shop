@@ -13,11 +13,11 @@ const outfit = Outfit({
 });
 
 export const metadata = {
-  metadataBase: new URL('https://shizelle.com'),
-  title: 'Shizelle — Handmade Crochet',
+  metadataBase: new URL('https://crochet-shop-olive.vercel.app'),
+  title: 'Shizelle | Handmade Crochet',
   description: 'Handmade crochet pieces, made with love in Sri Lanka. Every item is made to order, just for you.',
   openGraph: {
-    title: 'Shizelle — Handmade Crochet',
+    title: 'Shizelle | Handmade Crochet',
     description: 'Handmade crochet pieces, made with love in Sri Lanka.',
     type: 'website',
   },
