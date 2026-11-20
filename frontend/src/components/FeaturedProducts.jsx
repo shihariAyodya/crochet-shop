@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { GiYarn } from 'react-icons/gi';
 import './FeaturedProducts.css';
 
-const TOTAL_TILES = 10; // real products first, the rest are "Coming soon" tiles
+const TOTAL_TILES = 8; // 2 rows of 4: real products first, the rest are "Coming soon" tiles
 
 function FeaturedProducts({ products = [] }) {
   const [visible, setVisible] = useState(false);
