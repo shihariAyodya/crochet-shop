@@ -4,10 +4,21 @@ import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { GiYarn } from 'react-icons/gi';
-import { FiShoppingBag, FiCheck } from 'react-icons/fi';
-import sizeChart from '../assets/size-chart.png';
+import { FiShoppingBag, FiCheck, FiChevronDown } from 'react-icons/fi';
 import { useCart } from '../context/CartContext';
 import { ORDER_WHATSAPP_NUMBER } from '../lib/site';
+
+// Size chart (measurements in inches)
+const SIZE_CHART = [
+  { size: 'XS', bust: '32', arm: '13 - 14' },
+  { size: 'S', bust: '34', arm: '14 - 15' },
+  { size: 'M', bust: '36', arm: '15 - 16' },
+  { size: 'L', bust: '39', arm: '17 - 18' },
+  { size: 'XL', bust: '42', arm: '19 - 20' },
+];
+
+// "13 - 14" inches → "33 - 36" cm
+const toCm = (text) => text.replace(/\d+(\.\d+)?/g, (n) => String(Math.round(Number(n) * 2.54)));
 
 // Joins class names, skipping false/null/undefined
 const cx = (...classes) => classes.filter(Boolean).join(' ');
@@ -43,6 +54,7 @@ function ProductDetailContent({ id, products }) {
   const [quantity, setQuantity] = useState(1);
   const [justAdded, setJustAdded] = useState(null); // text of the last item added to the cart
   const [showSizeChart, setShowSizeChart] = useState(false);
+  const [unit, setUnit] = useState('in'); // 'in' or 'cm'
   const [activeImg, setActiveImg] = useState(0);
   const [imgZoom, setImgZoom] = useState(false);
   const [addedAnim, setAddedAnim] = useState(false);
@@ -60,12 +72,9 @@ function ProductDetailContent({ id, products }) {
 
   // Modals: Esc closes, arrow keys change image, page behind doesn't scroll
   useEffect(() => {
-    if (!imgZoom && !showSizeChart) return;
+    if (!imgZoom) return;
     const onKey = (e) => {
-      if (e.key === 'Escape') {
-        setImgZoom(false);
-        setShowSizeChart(false);
-      }
+      if (e.key === 'Escape') setImgZoom(false);
       if (imgZoom && imageCount > 1) {
         if (e.key === 'ArrowRight') setActiveImg((i) => (i + 1) % imageCount);
         if (e.key === 'ArrowLeft') setActiveImg((i) => (i - 1 + imageCount) % imageCount);
@@ -77,7 +86,7 @@ function ProductDetailContent({ id, products }) {
       document.body.style.overflow = '';
       window.removeEventListener('keydown', onKey);
     };
-  }, [imgZoom, showSizeChart, imageCount]);
+  }, [imgZoom, imageCount]);
 
   if (!product) {
     return (
@@ -103,6 +112,10 @@ function ProductDetailContent({ id, products }) {
   const nextImg = () => setActiveImg((i) => (i + 1) % imageCount);
 
   const canAdd = Boolean(selectedSize && selectedColor);
+
+  // Only show the chart when this product uses those sizes (not baby sizes, for example)
+  const chartRows = SIZE_CHART.filter((r) => product.sizes.includes(r.size));
+  const hasChart = chartRows.length > 0;
 
   // Photo for the chosen colour (falls back to the first photo)
   const imageForColor = (colorName) => {
@@ -261,12 +274,17 @@ function ProductDetailContent({ id, products }) {
                 Size
                 {selectedSize && <span className={selectedLabel}>{selectedSize}</span>}
               </h3>
-              <button
-                onClick={() => setShowSizeChart(true)}
-                className="text-sm font-semibold text-rose-dark underline underline-offset-2 transition-colors hover:text-rose"
-              >
-                Size Chart
-              </button>
+              {hasChart && (
+                <button
+                  onClick={() => setShowSizeChart((v) => !v)}
+                  aria-expanded={showSizeChart}
+                  aria-controls="size-chart"
+                  className="flex items-center gap-1 text-sm font-semibold text-rose-dark underline underline-offset-2 transition-colors hover:text-rose"
+                >
+                  Size Chart
+                  <FiChevronDown className={cx('transition-transform duration-300', showSizeChart && 'rotate-180')} />
+                </button>
+              )}
             </div>
             <div className="flex flex-wrap gap-2.5">
               {product.sizes.map((size) => (
@@ -284,6 +302,71 @@ function ProductDetailContent({ id, products }) {
                 </button>
               ))}
             </div>
+
+            {/* ── Size chart (opens under the sizes) ── */}
+            {hasChart && (
+              <div
+                id="size-chart"
+                className={cx(
+                  'grid transition-[grid-template-rows,opacity,margin] duration-300 ease-out',
+                  showSizeChart ? 'mt-4 grid-rows-[1fr] opacity-100' : 'mt-0 grid-rows-[0fr] opacity-0'
+                )}
+              >
+                <div className="overflow-hidden">
+                  <div className="rounded-2xl border border-[#ecc5cc] bg-white p-4">
+                    <div className="mb-3 flex items-center justify-between gap-3">
+                      <p className="m-0 text-xs font-bold uppercase tracking-[1.5px] text-charcoal/60">Measurements</p>
+                      <div className="inline-flex rounded-full bg-[#f4efeb] p-0.5 text-xs font-bold">
+                        {['in', 'cm'].map((u) => (
+                          <button
+                            key={u}
+                            onClick={() => setUnit(u)}
+                            className={cx(
+                              'rounded-full px-3 py-1 transition',
+                              unit === u ? 'bg-charcoal text-white' : 'text-charcoal/60 hover:text-charcoal'
+                            )}
+                          >
+                            {u}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <table className="w-full border-collapse text-center text-sm">
+                      <thead>
+                        <tr className="text-xs uppercase tracking-wider text-rose-dark">
+                          <th className="py-2 font-bold">Size</th>
+                          <th className="py-2 font-bold">Bust</th>
+                          <th className="py-2 font-bold">Arm depth</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {chartRows.map((r) => (
+                          <tr
+                            key={r.size}
+                            onClick={() => setSelectedSize(r.size)}
+                            title={`Choose size ${r.size}`}
+                            className={cx(
+                              'cursor-pointer border-t border-[#f1e6e1] transition-colors',
+                              selectedSize === r.size ? 'bg-rose-light/60 font-bold' : 'hover:bg-[#faf6f2]'
+                            )}
+                          >
+                            <td className="py-2.5 font-bold text-charcoal">{r.size}</td>
+                            <td className="py-2.5 text-charcoal/80">{unit === 'cm' ? toCm(r.bust) : r.bust}</td>
+                            <td className="py-2.5 text-charcoal/80">{unit === 'cm' ? toCm(r.arm) : r.arm}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+
+                    <p className="mt-3 mb-0 text-xs text-charcoal/55">
+                      All measurements are in {unit === 'cm' ? 'centimetres' : 'inches'}. Tap a row to pick that size.
+                      Not sure? Send us your measurements on WhatsApp.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* ── Color ── */}
@@ -481,22 +564,6 @@ function ProductDetailContent({ id, products }) {
         document.body
       )}
 
-      {/* ── Size Chart Modal (drawn on <body> so it always covers the whole screen) ── */}
-      {showSizeChart && createPortal(
-        <div
-          className="fixed inset-0 z-[1000] flex animate-fade-in items-center justify-center bg-black/90"
-          onClick={() => setShowSizeChart(false)}
-        >
-          <button aria-label="Close" className={cx(glassBtn, 'absolute top-5 right-5 size-11 text-lg')} onClick={() => setShowSizeChart(false)}>✕</button>
-          <img
-            src={sizeChart?.src || sizeChart}
-            alt="Size chart"
-            onClick={(e) => e.stopPropagation()}
-            className="max-h-[88vh] max-w-[88vw] rounded-2xl object-contain shadow-[0_24px_80px_rgba(0,0,0,0.5)]"
-          />
-        </div>,
-        document.body
-      )}
     </div>
   );
 }
