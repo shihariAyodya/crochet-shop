@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { products } from '../data/products';
 import sizeChart from '../assets/size-chart.jpg';
 
 const WA_NUMBER = '94705924972';
@@ -27,7 +26,7 @@ const glassBtn =
 const imgArrow =
   'absolute top-1/2 z-[2] flex size-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 pb-0.5 text-2xl transition hover:scale-110 hover:bg-white opacity-100 min-[860px]:opacity-0 min-[860px]:group-hover:opacity-100';
 
-export default function ProductDetail({ id }) {
+export default function ProductDetail({ id, products = [] }) {
   // Start at the top whenever the product changes
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -35,10 +34,10 @@ export default function ProductDetail({ id }) {
 
   // key={id} gives every product a fresh state, so selections
   // don't carry over when clicking a "You Might Also Like" card
-  return <ProductDetailContent key={id} id={Number(id)} />;
+  return <ProductDetailContent key={id} id={Number(id)} products={products} />;
 }
 
-function ProductDetailContent({ id }) {
+function ProductDetailContent({ id, products }) {
   const product = products.find((p) => p.id === id);
   const images = Array.isArray(product?.images) ? product.images : [];
   const imageCount = images.length;
@@ -136,7 +135,7 @@ function ProductDetailContent({ id }) {
 
   // Related products (same category, excluding current)
   const related = products
-    .filter((p) => p.category === product.category && p.id !== product.id && Array.isArray(p.images))
+    .filter((p) => p.category === product.category && p.id !== product.id && p.images.length > 0)
     .slice(0, 3);
 
   return (

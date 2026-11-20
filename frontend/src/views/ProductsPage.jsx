@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { products } from '../data/products';
 import './ProductsPage.css';
 
 const categoryEmojis = {
@@ -17,7 +16,7 @@ const categoryEmojis = {
 // Total tiles on the "All" view: real products first, then "Coming soon" tiles
 const TOTAL_TILES = 15;
 
-function ProductsPage() {
+function ProductsPage({ products = [] }) {
   const [activeCategory, setActiveCategory] = useState('All');
   const [search, setSearch] = useState('');
   const [hoveredId, setHoveredId] = useState(null);
@@ -64,7 +63,7 @@ function ProductsPage() {
           <span className="pp-header-label">Handmade with Love</span>
           <h1 className="pp-header-title">Our Collection</h1>
           <p className="pp-header-sub">
-            Browse all our handcrafted crochet pieces — each one unique, made to order.
+            Browse all our handcrafted crochet pieces. Each one is unique and made to order.
           </p>
 
           {/* Search */}
@@ -133,7 +132,7 @@ function ProductsPage() {
             >
               {/* Image */}
               <div className="pp-card-img-wrap">
-                {Array.isArray(product.images) ? (
+                {product.images.length > 0 ? (
                   <>
                     <img
                       src={product.images[0]}

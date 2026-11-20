@@ -1,13 +1,11 @@
 import Link from 'next/link';
-import { products } from '../data/products';
+export default function StoryTeaser({ products = [] }) {
+  // Uses two of your product photos. Swap in your own workspace / yarn photos if you have them.
+  const photos = products
+    .filter((p) => Array.isArray(p.images) && p.images[0])
+    .slice(0, 2)
+    .map((p) => ({ src: p.images[0], alt: p.name }));
 
-// Uses two of your product photos. Swap in your own workspace / yarn photos if you have them.
-const photos = products
-  .filter((p) => Array.isArray(p.images) && p.images[0])
-  .slice(0, 2)
-  .map((p) => ({ src: p.images[0], alt: p.name }));
-
-export default function StoryTeaser() {
   return (
     <section className="overflow-hidden bg-cream px-5 py-16 lg:py-24">
       <div className="mx-auto grid max-w-[1100px] items-center gap-12 md:grid-cols-2 md:gap-16">

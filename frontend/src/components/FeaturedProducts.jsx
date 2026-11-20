@@ -3,11 +3,10 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import './FeaturedProducts.css';
-import { products } from '../data/products';
 
 const TOTAL_TILES = 10; // real products first, the rest are "Coming soon" tiles
 
-function FeaturedProducts() {
+function FeaturedProducts({ products = [] }) {
   const [visible, setVisible] = useState(false);
   const [hoveredId, setHoveredId] = useState(null);
   const sectionRef = useRef(null);
@@ -34,7 +33,7 @@ function FeaturedProducts() {
       <div className="featured-products-header">
         <span className="fp-label">Our Collection</span>
         <h2 className="fp-heading">Featured Products</h2>
-        <p className="fp-subtext">Handcrafted with care — each piece is unique and made with premium cotton yarn.</p>
+        <p className="fp-subtext">Handcrafted with care. Each piece is unique and made with premium cotton yarn.</p>
       </div>
 
       <div className={`fp-grid ${visible ? 'fp-visible' : ''}`}>

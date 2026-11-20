@@ -11,7 +11,7 @@ import RateUs from '../components/RateUs';
 import Contact from '../components/Contact';
 import Reveal from '../components/Reveal';
 
-function Home() {
+function Home({ products = [] }) {
   useEffect(() => {
     const scrollToHash = () => {
       const hash = window.location.hash;
@@ -31,10 +31,10 @@ function Home() {
   return (
     <>
       <HeroSlider />
-      <Reveal><FeaturedProducts /></Reveal>
+      <Reveal><FeaturedProducts products={products} /></Reveal>
       <Reveal><HowItWorks /></Reveal>
       <Reveal><WhyUs /></Reveal>
-      <Reveal><StoryTeaser /></Reveal>
+      <Reveal><StoryTeaser products={products} /></Reveal>
       <Reveal><TestimonialsSlider /></Reveal>
       <Reveal><RateUs /></Reveal>
       <Reveal><Contact /></Reveal>

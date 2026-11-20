@@ -4,6 +4,7 @@ import { useState } from 'react';
 import './Contact.css';
 import { FaWhatsapp, FaFacebookF, FaArrowRight } from 'react-icons/fa';
 import { MdEmail } from 'react-icons/md';
+import { getSupabaseBrowser } from '../lib/supabase/client';
 
 const contactOptions = [
   {
@@ -38,10 +39,35 @@ function Contact() {
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const [submitted, setSubmitted] = useState(false);
+  const [name, setName] = useState('');
+  const [message, setMessage] = useState('');
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
+    setSending(true);
+
+    const { error: saveError } = await getSupabaseBrowser()
+      .from('feedback')
+      .insert({
+        name: name.trim(),
+        rating: rating || null,
+        message: message.trim(),
+      });
+
+    setSending(false);
+
+    if (saveError) {
+      console.error('Could not send feedback:', saveError.message);
+      setError('Sorry, something went wrong. Please try again or message us on WhatsApp.');
+      return;
+    }
+
     setSubmitted(true);
+    setName('');
+    setMessage('');
     setTimeout(() => {
       setSubmitted(false);
       setRating(0);
@@ -63,7 +89,7 @@ function Contact() {
             Get in <span>touch</span>
           </h2>
           <p className="ct-sub">
-            Have a question or want a custom order? Reach out directly — we'd love to hear from you.
+            Have a question or want a custom order? Reach out directly. We'd love to hear from you.
           </p>
 
           <div className="ct-cards">
@@ -104,7 +130,15 @@ function Contact() {
               <h3 className="ct-form-title">Leave feedback</h3>
 
               <form onSubmit={handleSubmit} className="ct-form">
-                <input className="ct-input" type="text" placeholder="Your name" required />
+                <input
+                  className="ct-input"
+                  type="text"
+                  placeholder="Your name"
+                  maxLength={100}
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                />
 
                 <div className="ct-rating">
                   <span className="ct-rating-label">
@@ -126,10 +160,20 @@ function Contact() {
                   </div>
                 </div>
 
-                <textarea className="ct-input ct-textarea" rows="4" placeholder="Tell us what you think..." required />
+                <textarea
+                  className="ct-input ct-textarea"
+                  rows="4"
+                  placeholder="Tell us what you think..."
+                  maxLength={2000}
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  required
+                />
 
-                <button type="submit" className="ct-submit">
-                  Send feedback <FaArrowRight />
+                {error && <p className="ct-error">{error}</p>}
+
+                <button type="submit" className="ct-submit" disabled={sending}>
+                  {sending ? 'Sending...' : <>Send feedback <FaArrowRight /></>}
                 </button>
               </form>
             </>

@@ -310,6 +310,21 @@
   transform: translateX(4px);
 }
 
+.ct-submit:disabled {
+  opacity: 0.7;
+  cursor: wait;
+  transform: none;
+}
+
+.ct-error {
+  margin: 0;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: #fdecee;
+  color: #a5363f;
+  font-size: 14px;
+}
+
 /* Thank-you message */
 .ct-success {
   text-align: center;

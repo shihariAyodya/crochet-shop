@@ -1,31 +1,27 @@
-import { products } from '../../../src/data/products';
 import ProductDetail from '../../../src/views/ProductDetail';
+import { getProducts, getProduct } from '../../../src/lib/products';
 
-export function generateStaticParams() {
-  return products.map((product) => ({
-    id: String(product.id),
-  }));
+// Re-check the database at most once a minute.
+// Products added later (not known at build time) are created on first visit.
+export const revalidate = 60;
+
+export async function generateStaticParams() {
+  const products = await getProducts();
+  return products.map((product) => ({ id: String(product.id) }));
 }
 
 export async function generateMetadata({ params }) {
-  const resolvedParams = await params;
-  const product = products.find((p) => String(p.id) === String(resolvedParams.id));
+  const { id } = await params;
+  const product = await getProduct(id);
 
   if (!product) {
-    return {
-      title: 'Product Not Found — Shizelle',
-    };
+    return { title: 'Product Not Found | Shizelle' };
   }
 
   const priceText = product.price || (product.prices ? `From ${Object.values(product.prices)[0]}` : '');
-  const title = `${product.name} — ${priceText} | Shizelle`;
-  const description = `${product.description} ${priceText ? `Price: ${priceText}.` : ''} 100% handmade crochet in Sri Lanka.`;
-
-  let imageUrl = null;
-  if (Array.isArray(product.images) && product.images.length > 0) {
-    const firstImg = product.images[0];
-    imageUrl = typeof firstImg === 'object' && firstImg?.src ? firstImg.src : firstImg;
-  }
+  const title = `${product.name}${priceText ? `, ${priceText}` : ''} | Shizelle`;
+  const description = `${product.description} ${priceText ? `Price: ${priceText}.` : ''} 100% handmade crochet in Sri Lanka.`.trim();
+  const imageUrl = product.images[0] || null;
 
   return {
     title,
@@ -34,14 +30,7 @@ export async function generateMetadata({ params }) {
       title,
       description,
       type: 'website',
-      images: imageUrl
-        ? [
-            {
-              url: imageUrl,
-              alt: product.name,
-            },
-          ]
-        : [],
+      images: imageUrl ? [{ url: imageUrl, alt: product.name }] : [],
     },
     twitter: {
       card: 'summary_large_image',
@@ -53,6 +42,7 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function ProductDetailPage({ params }) {
-  const resolvedParams = await params;
-  return <ProductDetail id={resolvedParams.id} />;
+  const { id } = await params;
+  const products = await getProducts();
+  return <ProductDetail id={id} products={products} />;
 }
