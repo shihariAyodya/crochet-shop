@@ -1,7 +1,7 @@
-import Contact from '../../src/views/Contact';
+import Contact from '../../src/components/Contact';
 
 export const metadata = {
-  title: 'Contact Us — Shizelle',
+  title: 'Contact Us | Shizelle',
   description: 'Have questions about your order or our crochet pieces? Drop us a message or chat with us on WhatsApp.',
 };
 
