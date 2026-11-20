@@ -1,6 +1,16 @@
 import Link from 'next/link';
 import { FaWhatsapp } from 'react-icons/fa';
-import { FiArrowRight, FiHeart, FiFeather, FiGift, FiStar } from 'react-icons/fi';
+import { GiYarn } from 'react-icons/gi';
+import {
+  FiArrowRight,
+  FiHeart,
+  FiFeather,
+  FiGift,
+  FiStar,
+  FiMapPin,
+  FiClock,
+  FiSliders,
+} from 'react-icons/fi';
 import './About.css';
 
 const WHATSAPP_LINK = 'https://wa.me/94705122847';
@@ -50,40 +60,39 @@ const VALUES = [
 function About() {
   return (
     <div className="ab">
-      {/* ── Hero ── */}
+      {/* ── Intro (text only) ── */}
       <section className="ab-hero">
         <div className="ab-blob ab-blob-1" />
         <div className="ab-blob ab-blob-2" />
 
         <div className="ab-hero-inner">
-          <div className="ab-hero-text">
-            <span className="ab-eyebrow">Our story</span>
-            <h1 className="ab-title">
-              Made by hand, <span>made for you</span>
-            </h1>
-            <p className="ab-sub">
-              Shizelle is a small crochet brand from Sri Lanka. Every top, dress and accessory is
-              crocheted by hand and made to order, in the size and colour you choose.
-            </p>
-            <div className="ab-actions">
-              <Link href="/products" className="ab-btn ab-btn-primary">
-                Shop the collection <FiArrowRight />
-              </Link>
-              <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="ab-btn ab-btn-ghost">
-                <FaWhatsapp /> Chat with us
-              </a>
-            </div>
+          <span className="ab-eyebrow">Our story</span>
+          <h1 className="ab-title">
+            Made by hand, <span>made for you</span>
+          </h1>
+          <p className="ab-sub">
+            Shizelle is a small crochet brand from Sri Lanka. Every top, dress and accessory is
+            crocheted by hand and made to order, in the size and colour you choose.
+          </p>
+
+          {/* Little "stitched" divider */}
+          <div className="ab-stitch" aria-hidden="true">
+            <span className="ab-stitch-line" />
+            <GiYarn className="ab-stitch-icon" />
+            <span className="ab-stitch-line" />
           </div>
 
-          <div className="ab-collage" aria-hidden="true">
-            <img src="/products/halter-pink.jpg" alt="" className="ab-collage-main" />
-            <img src="/products/meshtop-green.jpg" alt="" className="ab-collage-top" />
-            <img src="/products/babydress-yellow.jpeg" alt="" className="ab-collage-bottom" />
-            <div className="ab-badge">
-              <strong>100%</strong>
-              <span>handmade</span>
-            </div>
-          </div>
+          <ul className="ab-facts">
+            <li>
+              <FiMapPin /> Handmade in Sri Lanka
+            </li>
+            <li>
+              <FiClock /> Made to order
+            </li>
+            <li>
+              <FiSliders /> Your size, your colour
+            </li>
+          </ul>
         </div>
       </section>
 
