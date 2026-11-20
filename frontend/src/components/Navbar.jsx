@@ -58,17 +58,19 @@ function Navbar() {
             <img src={logo.src} alt="Shizelle" className="navbar-logo-img" />
           </Link>
 
-          <div className="navbar-right">
-            <ul className={`navbar-links ${isOpen ? 'open' : ''}`}>
-              {links.map((l) => (
-                <li key={l.href}>
-                  <Link href={l.href} className={isActive(l.href) ? 'active' : ''}>
-                    {l.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+          {/* Middle: page links */}
+          <ul className={`navbar-links ${isOpen ? 'open' : ''}`}>
+            {links.map((l) => (
+              <li key={l.href}>
+                <Link href={l.href} className={isActive(l.href) ? 'active' : ''}>
+                  {l.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
 
+          {/* Right corner: cart (+ menu button on phones) */}
+          <div className="navbar-right">
             <button
               className="navbar-cart"
               onClick={openCart}

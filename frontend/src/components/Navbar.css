@@ -1,5 +1,6 @@
 /* ════════════════════════════════════════
    NAVBAR
+   Logo on the left, links in the middle, cart in the right corner.
    Fixed to the top. Full width at the top of the page,
    turns into a floating pill when you scroll.
    ════════════════════════════════════════ */
@@ -17,12 +18,13 @@
 .navbar {
   pointer-events: auto;
   position: relative;
-  display: flex;
-  justify-content: space-between;
+  /* 3 columns: logo | links (centred) | cart */
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
   width: 100%;
   margin: 0 auto;
-  padding: 16px 40px;
+  padding: 14px 40px;
   box-sizing: border-box;
   background-color: #ffffff;
   border: 1px solid transparent;
@@ -50,139 +52,15 @@
   box-shadow: 0 12px 34px rgba(59, 53, 50, 0.14);
 }
 
-/* ── Logo ── */
+/* ── Logo (left) ── */
 .navbar-logo {
+  grid-column: 1;
+  justify-self: start;
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-family: var(--heading);
-  font-size: 24px;
-  font-weight: 600;
-  color: var(--color-rose-dark);
   text-decoration: none;
 }
 
-.navbar-icon {
-  font-size: 26px;
-  color: var(--color-rose-dark);
-}
-
-/* ── Links ── */
-.navbar-links {
-  display: flex;
-  list-style: none;
-  gap: 32px;
-  margin: 0;
-  padding: 0;
-}
-
-.navbar-links a {
-  position: relative;
-  text-decoration: none;
-  color: var(--color-charcoal);
-  font-size: 16px;
-  padding: 4px 0;
-  transition: color 0.2s ease;
-}
-
-/* underline that grows on hover / shows on the current page */
-.navbar-links a::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -2px;
-  height: 2px;
-  border-radius: 2px;
-  background: var(--color-rose-dark);
-  transform: scaleX(0);
-  transition: transform 0.25s ease;
-}
-
-.navbar-links a:hover {
-  color: var(--color-rose-dark);
-}
-
-.navbar-links a:hover::after {
-  transform: scaleX(1);
-}
-
-.navbar-links a.active {
-  color: var(--color-rose-dark);
-  font-weight: 600;
-}
-
-.navbar-links a.active::after {
-  transform: scaleX(1);
-}
-
-/* ── Phone menu button ── */
-.navbar-toggle {
-  display: none;
-  background: none;
-  border: none;
-  font-size: 26px;
-  color: var(--color-rose-dark);
-  cursor: pointer;
-}
-
-@media (max-width: 768px) {
-  .navbar {
-    padding: 14px 20px;
-  }
-
-  .nav-wrap.is-scrolled .navbar {
-    width: calc(100% - 20px);
-    transform: translateY(10px);
-  }
-
-  .navbar-toggle {
-    display: block;
-  }
-
-  .navbar-links {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    flex-direction: column;
-    background-color: #ffffff;
-    box-shadow: 0 10px 20px rgba(59, 53, 50, 0.08);
-    padding: 0;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease, padding 0.3s ease;
-    gap: 0;
-  }
-
-  /* when floating, the menu drops down as its own rounded card */
-  .nav-wrap.is-scrolled .navbar-links {
-    top: calc(100% + 8px);
-    border-radius: 20px;
-  }
-
-  .navbar-links.open {
-    max-height: 300px;
-    padding: 16px 0;
-  }
-
-  .navbar-links li {
-    text-align: center;
-    padding: 12px 0;
-  }
-
-  .navbar-links a::after {
-    display: none;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .navbar {
-    transition: none;
-  }
-}
-
-/* ── Image logo ── */
 .navbar-logo-img {
   display: block;
   height: 46px;
@@ -194,17 +72,47 @@
   height: 38px;
 }
 
-@media (max-width: 768px) {
-  .navbar-logo-img {
-    height: 38px;
-  }
-}
-
-/* ── Right side: links + cart + phone menu button ── */
-.navbar-right {
+/* ── Links (middle) ── */
+.navbar-links {
+  grid-column: 2;
   display: flex;
   align-items: center;
-  gap: 28px;
+  gap: 6px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-links a {
+  display: block;
+  padding: 9px 20px;
+  border-radius: 999px;
+  font-size: 15.5px;
+  font-weight: 500;
+  color: rgba(59, 53, 50, 0.7);
+  text-decoration: none;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.navbar-links a:hover {
+  color: var(--color-charcoal);
+  background-color: #f6f1ed;
+}
+
+/* Current page: soft pill */
+.navbar-links a.active {
+  color: var(--color-rose-dark);
+  font-weight: 700;
+  background-color: var(--color-rose-light);
+}
+
+/* ── Right corner: cart + phone menu button ── */
+.navbar-right {
+  grid-column: 3;
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .navbar-cart {
@@ -212,8 +120,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   border: none;
   border-radius: 50%;
   font-size: 20px;
@@ -263,14 +171,89 @@
   }
 }
 
+/* ── Phone menu button (hidden on computers) ── */
+.navbar-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 26px;
+  color: var(--color-rose-dark);
+  cursor: pointer;
+}
+
+/* ── Phones and small tablets ── */
 @media (max-width: 768px) {
+  .navbar {
+    grid-template-columns: 1fr auto;
+    /* logo | cart + menu */
+    padding: 12px 20px;
+  }
+
+  .nav-wrap.is-scrolled .navbar {
+    width: calc(100% - 20px);
+    transform: translateY(10px);
+  }
+
+  .navbar-logo-img {
+    height: 38px;
+  }
+
   .navbar-right {
-    gap: 12px;
+    grid-column: 2;
+    gap: 10px;
   }
 
   .navbar-cart {
     width: 40px;
     height: 40px;
     font-size: 19px;
+  }
+
+  .navbar-toggle {
+    display: block;
+  }
+
+  /* Links drop down under the bar */
+  .navbar-links {
+    grid-column: auto;
+    /* so it spans the full width of the bar */
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    gap: 4px;
+    background-color: #ffffff;
+    box-shadow: 0 10px 20px rgba(59, 53, 50, 0.08);
+    padding: 0 16px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+  }
+
+  /* when floating, the menu drops down as its own rounded card */
+  .nav-wrap.is-scrolled .navbar-links {
+    top: calc(100% + 8px);
+    border-radius: 20px;
+  }
+
+  .navbar-links.open {
+    max-height: 320px;
+    padding: 12px 16px;
+  }
+
+  .navbar-links li {
+    width: 100%;
+  }
+
+  .navbar-links a {
+    text-align: center;
+    padding: 12px 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .navbar {
+    transition: none;
   }
 }
