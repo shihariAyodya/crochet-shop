@@ -16,6 +16,7 @@
   filter: blur(80px);
   pointer-events: none;
 }
+
 .ct-blob-1 {
   width: 380px;
   height: 380px;
@@ -23,6 +24,7 @@
   left: -100px;
   background: rgba(201, 138, 148, 0.18);
 }
+
 .ct-blob-2 {
   width: 340px;
   height: 340px;
@@ -61,6 +63,7 @@
   letter-spacing: -1px;
   color: var(--color-charcoal);
 }
+
 .ct-title span {
   color: var(--color-rose-dark);
   font-style: italic;
@@ -95,6 +98,7 @@
   box-shadow: 0 4px 18px rgba(59, 53, 50, 0.06);
   transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
+
 .ct-card:hover {
   transform: translateY(-3px);
   box-shadow: 0 14px 32px rgba(59, 53, 50, 0.1);
@@ -112,17 +116,37 @@
   font-size: 22px;
   transition: transform 0.3s ease;
 }
+
 .ct-card:hover .ct-card-icon {
   transform: scale(1.08) rotate(-6deg);
 }
 
-.ct-card-whatsapp .ct-card-icon { background: #e6f8ed; color: #1fa855; }
-.ct-card-facebook .ct-card-icon { background: #e8f0fe; color: #1877f2; }
-.ct-card-email    .ct-card-icon { background: var(--color-rose-light); color: var(--color-rose-dark); }
+.ct-card-whatsapp .ct-card-icon {
+  background: #e6f8ed;
+  color: #1fa855;
+}
 
-.ct-card-whatsapp:hover { border-color: #bfe9cf; }
-.ct-card-facebook:hover { border-color: #c9dbfb; }
-.ct-card-email:hover    { border-color: #ecc5cc; }
+.ct-card-facebook .ct-card-icon {
+  background: #e8f0fe;
+  color: #1877f2;
+}
+
+.ct-card-email .ct-card-icon {
+  background: var(--color-rose-light);
+  color: var(--color-rose-dark);
+}
+
+.ct-card-whatsapp:hover {
+  border-color: #bfe9cf;
+}
+
+.ct-card-facebook:hover {
+  border-color: #c9dbfb;
+}
+
+.ct-card-email:hover {
+  border-color: #ecc5cc;
+}
 
 .ct-card-text {
   flex: 1;
@@ -131,11 +155,13 @@
   flex-direction: column;
   gap: 2px;
 }
+
 .ct-card-title {
   font-size: 16px;
   font-weight: 700;
   color: var(--color-charcoal);
 }
+
 .ct-card-sub {
   font-size: 14px;
   color: rgba(59, 53, 50, 0.65);
@@ -157,6 +183,7 @@
   color: rgba(59, 53, 50, 0.5);
   transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease;
 }
+
 .ct-card:hover .ct-card-arrow {
   transform: translateX(4px);
   background: var(--color-charcoal);
@@ -172,6 +199,7 @@
   font-size: 14px;
   color: rgba(59, 53, 50, 0.65);
 }
+
 .ct-dot {
   position: relative;
   width: 9px;
@@ -179,6 +207,7 @@
   border-radius: 50%;
   background: #25d366;
 }
+
 .ct-dot::after {
   content: '';
   position: absolute;
@@ -187,9 +216,17 @@
   background: #25d366;
   animation: ctPulse 2s ease-out infinite;
 }
+
 @keyframes ctPulse {
-  from { transform: scale(1); opacity: 0.6; }
-  to   { transform: scale(2.8); opacity: 0; }
+  from {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+
+  to {
+    transform: scale(2.8);
+    opacity: 0;
+  }
 }
 
 /* ── Right side: feedback card ── */
@@ -228,14 +265,17 @@
   outline: none;
   transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
 }
+
 .ct-input::placeholder {
   color: rgba(59, 53, 50, 0.45);
 }
+
 .ct-input:focus {
   border-color: var(--color-rose);
   background: #fff;
   box-shadow: 0 0 0 4px rgba(201, 138, 148, 0.15);
 }
+
 .ct-textarea {
   resize: vertical;
   min-height: 110px;
@@ -251,15 +291,18 @@
   background: #faf6f2;
   border: 1.5px solid #ece4de;
 }
+
 .ct-rating-label {
   font-size: 15px;
   font-weight: 600;
   color: rgba(59, 53, 50, 0.7);
 }
+
 .ct-stars {
   display: flex;
   gap: 4px;
 }
+
 .ct-star {
   background: none;
   border: none;
@@ -270,9 +313,11 @@
   cursor: pointer;
   transition: color 0.15s ease, transform 0.15s ease;
 }
+
 .ct-star:hover {
   transform: scale(1.18);
 }
+
 .ct-star.active {
   color: #f4b740;
 }
@@ -297,15 +342,18 @@
   box-shadow: 0 10px 24px rgba(165, 99, 111, 0.3);
   transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
 }
+
 .ct-submit svg {
   font-size: 13px;
   transition: transform 0.25s ease;
 }
+
 .ct-submit:hover {
   transform: translateY(-2px);
   background: #94505c;
   box-shadow: 0 14px 30px rgba(165, 99, 111, 0.38);
 }
+
 .ct-submit:hover svg {
   transform: translateX(4px);
 }
@@ -331,6 +379,7 @@
   padding: 48px 10px;
   animation: ctFadeUp 0.5s ease both;
 }
+
 .ct-success-icon {
   display: inline-flex;
   align-items: center;
@@ -344,18 +393,107 @@
   font-size: 30px;
   font-weight: 700;
 }
+
 .ct-success h4 {
   margin: 0 0 6px;
   font-size: 22px;
   color: var(--color-charcoal);
 }
+
 .ct-success p {
   margin: 0;
   color: rgba(59, 53, 50, 0.65);
 }
+
 @keyframes ctFadeUp {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: none; }
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ── Contact page version (questions instead of the form) ── */
+.ct-page {
+  min-height: calc(100vh - 90px);
+  display: flex;
+  align-items: center;
+}
+
+.ct-page .ct-inner {
+  width: 100%;
+  align-items: start;
+}
+
+.ct-faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ct-faq-item {
+  border-radius: 14px;
+  background: #faf6f2;
+  border: 1.5px solid #ece4de;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.ct-faq-item[open] {
+  background: #fff;
+  border-color: #ecc5cc;
+}
+
+.ct-faq-item summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 15px 18px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-charcoal);
+  cursor: pointer;
+  list-style: none;
+}
+
+.ct-faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.ct-faq-icon {
+  flex-shrink: 0;
+  font-size: 18px;
+  color: var(--color-rose-dark);
+  transition: transform 0.25s ease;
+}
+
+.ct-faq-item[open] .ct-faq-icon {
+  transform: rotate(45deg);
+}
+
+.ct-faq-item p {
+  margin: 0;
+  padding: 0 18px 16px;
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: rgba(59, 53, 50, 0.72);
+}
+
+.ct-faq-more {
+  margin: 20px 0 0;
+  font-size: 14.5px;
+  color: rgba(59, 53, 50, 0.65);
+}
+
+.ct-faq-more a {
+  font-weight: 700;
+  color: var(--color-rose-dark);
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 /* ── Responsive ── */
@@ -363,21 +501,26 @@
   .ct {
     padding: 64px 20px;
   }
+
   .ct-inner {
     grid-template-columns: 1fr;
     gap: 40px;
   }
+
   .ct-info {
     text-align: center;
   }
+
   .ct-sub,
   .ct-cards {
     margin-left: auto;
     margin-right: auto;
   }
+
   .ct-cards {
     text-align: left;
   }
+
   .ct-note {
     justify-content: center;
   }
@@ -387,6 +530,7 @@
   .ct-form-card {
     padding: 28px 20px;
   }
+
   .ct-star {
     font-size: 22px;
   }

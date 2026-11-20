@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import './Contact.css';
 import { FaWhatsapp, FaFacebookF, FaArrowRight } from 'react-icons/fa';
+import { FiPlus } from 'react-icons/fi';
 import { MdEmail } from 'react-icons/md';
 import { getSupabaseBrowser } from '../lib/supabase/client';
 
@@ -35,7 +36,36 @@ const contactOptions = [
 
 const ratingWords = ['', 'Poor', 'Okay', 'Good', 'Great', 'Loved it!'];
 
-function Contact() {
+// Shown on the Contact page instead of the feedback form
+const faqs = [
+  {
+    q: 'How do I place an order?',
+    a: 'Open the Products page, pick a piece, choose your size and colour, then tap "Order on WhatsApp". We will confirm the details with you there.',
+  },
+  {
+    q: 'Can I ask for a custom colour or size?',
+    a: 'Yes! Every piece is made to order, so custom colours, sizes and small design changes are welcome. Just message us with what you have in mind.',
+  },
+  {
+    q: 'Which size should I choose?',
+    a: 'Each product page has a size chart. If you are between sizes or not sure, send us your measurements and we will help you pick.',
+  },
+  {
+    q: 'How long does my order take?',
+    a: 'Because each piece is crocheted by hand after you order, it takes a little time. We will tell you how long your piece will take when you order.',
+  },
+  {
+    q: 'How do I pay and receive my order?',
+    a: 'Once your order is confirmed on WhatsApp, we will share the payment and delivery details with you.',
+  },
+];
+
+/**
+ * variant="home" (default): contact options + feedback form
+ * variant="page": contact options + questions (used on the Contact page)
+ */
+function Contact({ variant = 'home' }) {
+  const isPage = variant === 'page';
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const [submitted, setSubmitted] = useState(false);
@@ -77,7 +107,7 @@ function Contact() {
   const shownRating = hoverRating || rating;
 
   return (
-    <section className="ct" id="contact">
+    <section className={`ct ${isPage ? 'ct-page' : ''}`} id="contact">
       <div className="ct-blob ct-blob-1" aria-hidden="true" />
       <div className="ct-blob ct-blob-2" aria-hidden="true" />
 
@@ -85,9 +115,15 @@ function Contact() {
         {/* ── Left: contact options ── */}
         <div className="ct-info">
           <span className="ct-eyebrow">Contact us</span>
-          <h2 className="ct-title">
-            Get in <span>touch</span>
-          </h2>
+          {isPage ? (
+            <h1 className="ct-title">
+              Get in <span>touch</span>
+            </h1>
+          ) : (
+            <h2 className="ct-title">
+              Get in <span>touch</span>
+            </h2>
+          )}
           <p className="ct-sub">
             Have a question or want a custom order? Reach out directly. We'd love to hear from you.
           </p>
@@ -116,69 +152,96 @@ function Contact() {
           </p>
         </div>
 
-        {/* ── Right: feedback form ── */}
-        <div className="ct-form-card">
-          {submitted ? (
-            <div className="ct-success">
-              <span className="ct-success-icon">✓</span>
-              <h4>Thank you!</h4>
-              <p>Your feedback has been sent.</p>
+        {isPage ? (
+          /* ── Right: common questions ── */
+          <div className="ct-form-card ct-faq">
+            <span className="ct-eyebrow">Good to know</span>
+            <h3 className="ct-form-title">Common questions</h3>
+
+            <div className="ct-faq-list">
+              {faqs.map((f, i) => (
+                <details key={f.q} className="ct-faq-item" open={i === 0}>
+                  <summary>
+                    {f.q}
+                    <FiPlus className="ct-faq-icon" aria-hidden="true" />
+                  </summary>
+                  <p>{f.a}</p>
+                </details>
+              ))}
             </div>
-          ) : (
-            <>
-              <span className="ct-eyebrow">Your thoughts</span>
-              <h3 className="ct-form-title">Leave feedback</h3>
 
-              <form onSubmit={handleSubmit} className="ct-form">
-                <input
-                  className="ct-input"
-                  type="text"
-                  placeholder="Your name"
-                  maxLength={100}
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required
-                />
+            <p className="ct-faq-more">
+              Still have a question?{' '}
+              <a href="https://wa.me/94705122847" target="_blank" rel="noopener noreferrer">
+                Ask us on WhatsApp
+              </a>
+            </p>
+          </div>
+        ) : (
+          /* ── Right: feedback form ── */
+          <div className="ct-form-card">
+            {submitted ? (
+              <div className="ct-success">
+                <span className="ct-success-icon">✓</span>
+                <h4>Thank you!</h4>
+                <p>Your feedback has been sent.</p>
+              </div>
+            ) : (
+              <>
+                <span className="ct-eyebrow">Your thoughts</span>
+                <h3 className="ct-form-title">Leave feedback</h3>
 
-                <div className="ct-rating">
-                  <span className="ct-rating-label">
-                    {shownRating ? ratingWords[shownRating] : 'Rate us'}
-                  </span>
-                  <div className="ct-stars" onMouseLeave={() => setHoverRating(0)}>
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <button
-                        type="button"
-                        key={star}
-                        aria-label={`${star} star${star > 1 ? 's' : ''}`}
-                        className={`ct-star ${star <= shownRating ? 'active' : ''}`}
-                        onClick={() => setRating(star)}
-                        onMouseEnter={() => setHoverRating(star)}
-                      >
-                        ★
-                      </button>
-                    ))}
+                <form onSubmit={handleSubmit} className="ct-form">
+                  <input
+                    className="ct-input"
+                    type="text"
+                    placeholder="Your name"
+                    maxLength={100}
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required
+                  />
+
+                  <div className="ct-rating">
+                    <span className="ct-rating-label">
+                      {shownRating ? ratingWords[shownRating] : 'Rate us'}
+                    </span>
+                    <div className="ct-stars" onMouseLeave={() => setHoverRating(0)}>
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <button
+                          type="button"
+                          key={star}
+                          aria-label={`${star} star${star > 1 ? 's' : ''}`}
+                          className={`ct-star ${star <= shownRating ? 'active' : ''}`}
+                          onClick={() => setRating(star)}
+                          onMouseEnter={() => setHoverRating(star)}
+                        >
+                          ★
+                        </button>
+                      ))}
+                    </div>
                   </div>
-                </div>
 
-                <textarea
-                  className="ct-input ct-textarea"
-                  rows="4"
-                  placeholder="Tell us what you think..."
-                  maxLength={2000}
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  required
-                />
+                  <textarea
+                    className="ct-input ct-textarea"
+                    rows="4"
+                    placeholder="Tell us what you think..."
+                    maxLength={2000}
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    required
+                  />
 
-                {error && <p className="ct-error">{error}</p>}
+                  {error && <p className="ct-error">{error}</p>}
 
-                <button type="submit" className="ct-submit" disabled={sending}>
-                  {sending ? 'Sending...' : <>Send feedback <FaArrowRight /></>}
-                </button>
-              </form>
-            </>
-          )}
-        </div>
+                  <button type="submit" className="ct-submit" disabled={sending}>
+                    {sending ? 'Sending...' : <>Send feedback <FaArrowRight /></>}
+                  </button>
+                </form>
+              </>
+            )}
+          </div>
+        )}
       </div>
     </section>
   );
