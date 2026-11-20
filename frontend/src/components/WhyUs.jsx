@@ -1,13 +1,23 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { FaWhatsapp } from 'react-icons/fa';
+import { GiYarn } from 'react-icons/gi';
 import './WhyUs.css';
 
 const features = [
-  { icon: '🧶', title: '100% Handmade', desc: 'Every piece is crafted by hand with care and love in Sri Lanka.' },
-  { icon: '🌿', title: 'Eco Yarn', desc: 'We use soft, sustainable cotton yarn — gentle on skin and planet.' },
+  {
+    icon: <GiYarn style={{ color: 'var(--color-rose)' }} />,
+    title: '100% Handmade',
+    desc: 'Every piece is crafted by hand with care and love in Sri Lanka.',
+  },
+  { icon: '🌿', title: 'Eco Yarn', desc: 'We use soft, sustainable cotton yarn, gentle on skin and planet.' },
   { icon: '🎨', title: 'Custom Colors', desc: 'Pick your favorite color or request a custom shade for any item.' },
-  { icon: '💬', title: 'WhatsApp Orders', desc: 'Simple, personal ordering — chat with us directly for a seamless experience.' },
+  {
+    icon: <FaWhatsapp style={{ color: '#25d366' }} />,
+    title: 'WhatsApp Orders',
+    desc: 'Simple, personal ordering. Chat with us directly for a seamless experience.',
+  },
 ];
 
 function WhyUs() {

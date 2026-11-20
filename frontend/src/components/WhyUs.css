@@ -24,10 +24,20 @@
   transform: translateY(0);
 }
 
+/* Same-size box for every icon (emoji or WhatsApp icon), centred */
 .why-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  margin: 0 auto 14px;
   font-size: 38px;
-  margin-bottom: 14px;
-  display: block;
+  line-height: 1;
+}
+
+.why-icon svg {
+  width: 40px;
+  height: 40px;
 }
 
 .why-title {
@@ -40,7 +50,7 @@
 
 .why-desc {
   font-size: 14px;
-  color: rgba(255,255,255,0.6);
+  color: rgba(255, 255, 255, 0.6);
   line-height: 1.65;
   margin: 0;
 }
@@ -49,6 +59,7 @@
   .why-inner {
     grid-template-columns: repeat(2, 1fr);
   }
+
   .why-us {
     padding: 50px 32px;
   }
