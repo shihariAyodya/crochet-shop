@@ -1,37 +1,82 @@
 'use client';
 
-import { useState } from 'react';
-import './Navbar.css';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { GiYarn } from 'react-icons/gi';
+import './Navbar.css';
+
+const links = [
+  { href: '/', label: 'Home' },
+  { href: '/products', label: 'Products' },
+  { href: '/about', label: 'About' },
+  { href: '/contact', label: 'Contact' },
+];
 
 function Navbar() {
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const navRef = useRef(null);
+  const [navHeight, setNavHeight] = useState(70);
 
-  const closeMenu = () => setIsOpen(false);
+  // The navbar is "fixed", so a spacer of the same height keeps the page from sliding under it
+  useEffect(() => {
+    const el = navRef.current;
+    if (!el) return;
+    const update = () => setNavHeight(el.offsetHeight);
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  // Turn into a floating pill once the page is scrolled a little
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  // Close the phone menu when the page changes
+  useEffect(() => {
+    setIsOpen(false);
+  }, [pathname]);
+
+  const isActive = (href) => (href === '/' ? pathname === '/' : pathname.startsWith(href));
 
   return (
-    <nav className="navbar">
-      <div className="navbar-logo">
-        <GiYarn className="navbar-icon" />
-        Shizelle
+    <>
+      <div className="nav-spacer" style={{ height: navHeight }} aria-hidden="true" />
+      <div className={`nav-wrap ${scrolled ? 'is-scrolled' : ''}`}>
+        <nav className="navbar" ref={navRef}>
+          <Link href="/" className="navbar-logo">
+            <GiYarn className="navbar-icon" />
+            Shizelle
+          </Link>
+
+          <button
+            className="navbar-toggle"
+            onClick={() => setIsOpen(!isOpen)}
+            aria-label="Toggle menu"
+            aria-expanded={isOpen}
+          >
+            {isOpen ? '✕' : '☰'}
+          </button>
+
+          <ul className={`navbar-links ${isOpen ? 'open' : ''}`}>
+            {links.map((l) => (
+              <li key={l.href}>
+                <Link href={l.href} className={isActive(l.href) ? 'active' : ''}>
+                  {l.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </div>
-
-      <button
-        className="navbar-toggle"
-        onClick={() => setIsOpen(!isOpen)}
-        aria-label="Toggle menu"
-      >
-        {isOpen ? '✕' : '☰'}
-      </button>
-
-      <ul className={`navbar-links ${isOpen ? 'open' : ''}`}>
-        <li><Link href="/" onClick={closeMenu}>Home</Link></li>
-        <li><Link href="/products" onClick={closeMenu}>Products</Link></li>
-        <li><Link href="/about" onClick={closeMenu}>About</Link></li>
-        <li><Link href="/contact" onClick={closeMenu}>Contact</Link></li>
-      </ul>
-    </nav>
+    </>
   );
 }
 

@@ -1,12 +1,14 @@
 /* ════════════════════════════════════════
    NAVBAR
-   Full width at the top of the page,
+   Fixed to the top. Full width at the top of the page,
    turns into a floating pill when you scroll.
    ════════════════════════════════════════ */
 
 .nav-wrap {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 100;
   /* lets clicks pass through the empty space around the pill */
   pointer-events: none;
@@ -132,7 +134,6 @@
   .nav-wrap.is-scrolled .navbar {
     width: calc(100% - 20px);
     transform: translateY(10px);
-    padding: 12px 20px;
   }
 
   .navbar-toggle {
