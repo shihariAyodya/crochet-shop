@@ -4,6 +4,7 @@ import '../src/App.css';
 import Navbar from '../src/components/Navbar';
 import Footer from '../src/components/Footer';
 import ScrollToTop from '../src/components/ScrollToTopNext';
+import WhatsAppBubble from '../src/components/WhatsAppBubble';
 
 const outfit = Outfit({
   subsets: ['latin'],
@@ -33,6 +34,7 @@ export default function RootLayout({ children }) {
           {children}
           <Footer />
         </div>
+        <WhatsAppBubble />
       </body>
     </html>
   );
