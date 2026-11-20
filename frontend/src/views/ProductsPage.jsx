@@ -2,17 +2,9 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { FiSliders, FiChevronDown, FiCheck, FiX } from 'react-icons/fi';
+import { FiSliders, FiChevronDown, FiCheck, FiX, FiSearch } from 'react-icons/fi';
+import { GiYarn } from 'react-icons/gi';
 import './ProductsPage.css';
-
-const categoryEmojis = {
-  All: '✨',
-  Meshtops: '🌿',
-  CropTops: '🌸',
-  Cardigans: '🧶',
-  Beachwear: '🏖️',
-  Baby: '👶',
-};
 
 // Total tiles on the "All" view: real products first, then "Coming soon" tiles
 const TOTAL_TILES = 15;
@@ -188,7 +180,7 @@ function ProductsPage({ products = [] }) {
 
           {/* Search */}
           <div className="pp-search-wrap">
-            <span className="pp-search-icon">🔍</span>
+            <span className="pp-search-icon"><FiSearch /></span>
             <input
               className="pp-search"
               type="text"
@@ -216,7 +208,6 @@ function ProductsPage({ products = [] }) {
               className={`pp-filter-pill ${activeCategory === cat ? 'active' : ''}`}
               onClick={() => handleCategoryChange(cat)}
             >
-              <span className="pp-filter-emoji">{categoryEmojis[cat] || '🏷️'}</span>
               {cat}
               <span className="pp-filter-count">{getCategoryCount(cat)}</span>
             </button>
@@ -411,7 +402,7 @@ function ProductsPage({ products = [] }) {
       <div className={`pp-grid ${visible ? 'pp-grid-visible' : ''}`} ref={gridRef} key={animKey}>
         {filteredProducts.length === 0 ? (
           <div className="pp-empty">
-            <span className="pp-empty-icon">🧶</span>
+            <span className="pp-empty-icon" style={{ color: 'var(--color-rose)' }}><GiYarn /></span>
             <p>No products match these filters.</p>
             {activeFilterCount > 0 && (
               <button className="pp-empty-btn" onClick={clearFilters}>Clear filters</button>
@@ -445,8 +436,8 @@ function ProductsPage({ products = [] }) {
                     )}
                   </>
                 ) : (
-                  <div className="pp-card-img-placeholder">
-                    <span>🧶</span>
+                  <div className="pp-card-img-placeholder" style={{ color: 'var(--color-rose)' }}>
+                    <GiYarn />
                   </div>
                 )}
 
@@ -457,7 +448,7 @@ function ProductsPage({ products = [] }) {
 
                 {/* Category badge */}
                 <span className="pp-cat-badge">
-                  {categoryEmojis[product.category] || ''} {product.category}
+                  {product.category}
                 </span>
 
                 {/* Colors count */}
@@ -513,7 +504,7 @@ function ProductsPage({ products = [] }) {
             aria-hidden="true"
           >
             <div className="pp-card-img-wrap pp-blank-image">
-              <span className="pp-blank-icon">🧶</span>
+              <span className="pp-blank-icon" style={{ color: 'var(--color-rose)' }}><GiYarn /></span>
               <span className="pp-blank-label">Coming soon</span>
             </div>
             <div className="pp-card-info">

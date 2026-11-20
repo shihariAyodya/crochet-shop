@@ -1,18 +1,21 @@
 import Link from 'next/link';
+import { GiYarn } from 'react-icons/gi';
+import { FiDroplet } from 'react-icons/fi';
+import { FaWhatsapp } from 'react-icons/fa';
 
 const steps = [
   {
-    icon: '🧶',
+    icon: <GiYarn aria-hidden="true" />,
     title: 'Pick your piece',
     text: 'Browse the collection and find something you love.',
   },
   {
-    icon: '🎨',
+    icon: <FiDroplet aria-hidden="true" />,
     title: 'Choose size & colour',
     text: 'Add as many size and colour combinations as you like.',
   },
   {
-    icon: '💬',
+    icon: <FaWhatsapp aria-hidden="true" />,
     title: 'Order on WhatsApp',
     text: 'Your order is sent to us in one tap. We confirm and start crocheting.',
   },

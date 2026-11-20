@@ -189,10 +189,6 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
 }
 
-.pp-filter-emoji {
-  font-size: 14px;
-}
-
 .pp-filter-count {
   background: rgba(0, 0, 0, 0.1);
   border-radius: 20px;
@@ -309,6 +305,7 @@
   justify-content: center;
   background: linear-gradient(135deg, var(--color-sage-light), var(--color-rose-light));
   font-size: 40px;
+  color: var(--color-rose);
 }
 
 /* Overlay on hover */
@@ -446,6 +443,7 @@
   font-size: 56px;
   display: block;
   margin-bottom: 16px;
+  color: var(--color-rose);
 }
 
 .pp-empty p {
@@ -517,6 +515,7 @@
 .pp-blank-icon {
   font-size: 30px;
   opacity: 0.45;
+  color: var(--color-rose);
 }
 
 .pp-blank-label {

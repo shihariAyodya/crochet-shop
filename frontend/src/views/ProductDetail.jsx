@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
+import { GiYarn } from 'react-icons/gi';
 import sizeChart from '../assets/size-chart.png';
 
 const WA_NUMBER = '94705924972';
@@ -86,7 +87,9 @@ function ProductDetailContent({ id, products }) {
   if (!product) {
     return (
       <div className="px-10 py-30 text-center text-lg text-charcoal">
-        <span className="mb-4 block text-[56px]">🧶</span>
+        <span className="mb-4 block text-[56px] text-rose">
+          <GiYarn className="inline-block" />
+        </span>
         <h2>Product not found</h2>
         <Link
           href="/products"
@@ -200,8 +203,8 @@ function ProductDetailContent({ id, products }) {
                 </div>
               </>
             ) : (
-              <div className="flex size-full items-center justify-center bg-linear-to-br from-sage-light to-rose-light text-6xl">
-                🧶
+              <div className="flex size-full items-center justify-center bg-linear-to-br from-sage-light to-rose-light text-6xl text-rose">
+                <GiYarn />
               </div>
             )}
 
@@ -264,7 +267,7 @@ function ProductDetailContent({ id, products }) {
                 onClick={() => setShowSizeChart(true)}
                 className="text-sm font-semibold text-rose-dark underline underline-offset-2 transition-colors hover:text-rose"
               >
-                📏 Size Chart
+                Size Chart
               </button>
             </div>
             <div className="flex flex-wrap gap-2.5">
@@ -345,7 +348,7 @@ function ProductDetailContent({ id, products }) {
           {/* ── Hint (only one, only when needed) ── */}
           {!canAdd && !hasItems && (
             <p className="mt-3 mb-1 rounded-[10px] border-l-[3px] border-rose bg-rose-light/40 px-3.5 py-2.5 text-sm text-charcoal/75">
-              👆 Choose a size and colour to order. Want more than one? Add each combination.
+              Choose a size and colour to order. Want more than one? Add each combination.
             </p>
           )}
 
@@ -369,7 +372,7 @@ function ProductDetailContent({ id, products }) {
           {hasItems && (
             <div className="mb-4 rounded-2xl border border-black/5 bg-linear-to-br from-[#fdf4f5] to-[#f0f5ee] p-5">
               <h3 className="mt-0 mb-3.5 flex items-center gap-2 text-sm font-bold text-charcoal">
-                🛍️ Your Selections
+                Your Selections
                 <span className="inline-flex size-5 items-center justify-center rounded-full bg-rose text-[11px] font-bold text-white">
                   {orderItems.length}
                 </span>
@@ -426,7 +429,7 @@ function ProductDetailContent({ id, products }) {
 
           {/* ── Trust badges ── */}
           <div className="mt-4.5 flex flex-wrap gap-2">
-            {['🧶 Handmade', '🚚 Made to order', '💬 WhatsApp support'].map((t) => (
+            {['Handmade', 'Made to order', 'WhatsApp support'].map((t) => (
               <span key={t} className="rounded-full bg-[#f0eeec] px-3 py-1.5 text-xs font-semibold text-charcoal/70">
                 {t}
               </span>

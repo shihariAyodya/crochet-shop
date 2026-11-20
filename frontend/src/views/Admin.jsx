@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
+import { GiYarn } from 'react-icons/gi';
 import { getSupabaseBrowser } from '../lib/supabase/client';
 
 // Only used to show a friendly message. The real protection is the
@@ -222,7 +223,7 @@ function ProductsTab() {
               {p.images?.[0] ? (
                 <img src={p.images[0]} alt="" className="size-full object-cover" />
               ) : (
-                <span className="flex size-full items-center justify-center text-2xl">🧶</span>
+                <span className="flex size-full items-center justify-center text-2xl text-rose"><GiYarn aria-hidden="true" /></span>
               )}
             </div>
 
@@ -242,7 +243,7 @@ function ProductsTab() {
 
             <div className="flex flex-wrap gap-2">
               <button className={btnGhost} onClick={() => toggleActive(p)} title="Show or hide in the shop">
-                {p.is_active ? '👁 Visible' : '🚫 Hidden'}
+                {p.is_active ? 'Visible' : 'Hidden'}
               </button>
               <button className={btnGhost} onClick={() => setEditing(p)}>Edit</button>
               <button className={btnDanger} onClick={() => remove(p)}>Delete</button>

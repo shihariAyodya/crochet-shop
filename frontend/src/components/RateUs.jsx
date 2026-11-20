@@ -36,7 +36,7 @@ function RateUs() {
         ))}
       </div>
 
-      {sent && <p className="rate-us-thanks">Thank you for your rating! 💛</p>}
+      {sent && <p className="rate-us-thanks">Thank you for your rating!</p>}
     </section>
   );
 }

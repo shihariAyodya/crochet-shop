@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { GiYarn } from 'react-icons/gi';
 import './FeaturedProducts.css';
 
 const TOTAL_TILES = 10; // real products first, the rest are "Coming soon" tiles
@@ -87,7 +88,7 @@ function FeaturedProducts({ products = [] }) {
             aria-hidden="true"
           >
             <div className="fp-card-image-wrap fp-blank-image">
-              <span className="fp-blank-icon">🧶</span>
+              <span className="fp-blank-icon"><GiYarn aria-hidden="true" /></span>
               <span className="fp-blank-label">Coming soon</span>
             </div>
             <div className="fp-card-info">

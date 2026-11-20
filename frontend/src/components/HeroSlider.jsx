@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { FaWhatsapp } from 'react-icons/fa';
 import './HeroSlider.css';
 import heroImage from '../assets/coverpageNew.jpg';
 import topPink1 from '../assets/products/top-pink-white-1.png.png';
@@ -15,7 +16,7 @@ const slides = [
   {
     id: 1,
     image: heroImage,
-    badge: '✨ Handmade in Sri Lanka',
+    badge: 'Handmade in Sri Lanka',
     title: 'Handmade Crochet,\nMade With Love',
     subtitle: 'Cozy, one-of-a-kind pieces crafted just for you.',
     cta: 'Order on WhatsApp',
@@ -26,7 +27,7 @@ const slides = [
   {
     id: 2,
     image: halterPink,
-    badge: '🌸 New Arrivals',
+    badge: 'New Arrivals',
     title: 'Halter\nCrop Tops',
     subtitle: 'Lightweight, stylish crochet tops perfect for sunny days — available in 6 beautiful colors.',
     cta: 'Shop Crop Tops',
@@ -37,7 +38,7 @@ const slides = [
   {
     id: 3,
     image: topPink1,
-    badge: '🌿 Fan Favorite',
+    badge: 'Fan Favorite',
     title: 'Striped Crochet\nMesh Tops',
     subtitle: 'Relaxed open-weave designs with bold horizontal stripes — made with soft cotton yarn.',
     cta: 'Explore Collection',
@@ -48,7 +49,7 @@ const slides = [
   {
     id: 4,
     image: babyDressPink,
-    badge: '👶 For Little Ones',
+    badge: 'For Little Ones',
     title: 'Adorable\nBaby Dresses',
     subtitle: 'Charming handcrafted baby dresses in soft breathable cotton, available in 5 pastel colors.',
     cta: 'Shop Baby',
@@ -59,7 +60,7 @@ const slides = [
   {
     id: 5,
     image: meshtopGreen,
-    badge: '🏖️ Beach Ready',
+    badge: 'Beach Ready',
     title: 'Ocean\nMesh Tops',
     subtitle: 'Breezy open-weave crochet mesh tops — perfect layered over a bralette or swimsuit.',
     cta: 'Shop Now',
@@ -161,7 +162,7 @@ function HeroSlider() {
             )}
             {!slide.ctaExternal && (
               <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="hs-btn hs-btn-outline">
-                💬 WhatsApp Us
+                <FaWhatsapp aria-hidden="true" /> WhatsApp Us
               </a>
             )}
           </div>
@@ -182,8 +183,8 @@ function HeroSlider() {
             />
           </div>
 
-          <span className="hs-chip hs-chip-1">🧶 100% Handmade</span>
-          <span className="hs-chip hs-chip-2">💬 Order via WhatsApp</span>
+          <span className="hs-chip hs-chip-1">100% Handmade</span>
+          <span className="hs-chip hs-chip-2">Order via WhatsApp</span>
         </div>
 
         {/* ── Controls (under the words) ── */}
