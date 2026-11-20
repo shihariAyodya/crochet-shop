@@ -1,61 +1,27 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import './TestimonialsSlider.css';
 
-const testimonials = [
-  {
-    id: 1,
-    name: 'Amaya P.',
-    avatar: 'AP',
-    avatarColor: '#c98a94',
-    text: 'The quality is amazing! My scarf is so soft and the color was exactly as shown. Ordering through WhatsApp was quick and easy.',
-    rating: 5,
-    product: 'Striped Mesh Top',
-  },
-  {
-    id: 2,
-    name: 'Nethmi S.',
-    avatar: 'NS',
-    avatarColor: '#9caf88',
-    text: "Bought the tote bag as a gift and my friend loved it. You can really tell it\u2019s handmade with care.",
-    rating: 5,
-    product: 'Granny Square Cardigan',
-  },
-  {
-    id: 3,
-    name: 'Dilki R.',
-    avatar: 'DR',
-    avatarColor: '#a893c9',
-    text: 'Fast replies, smooth ordering process, and the crochet top fit perfectly. Will definitely order again!',
-    rating: 5,
-    product: 'Halter Crop Top',
-  },
-  {
-    id: 4,
-    name: 'Kavya M.',
-    avatar: 'KM',
-    avatarColor: '#e6b223',
-    text: 'I ordered a baby dress for my niece and it was absolutely adorable. The stitching is perfect and it feels so soft.',
-    rating: 5,
-    product: 'Baby Dresses',
-  },
-  {
-    id: 5,
-    name: 'Shalini T.',
-    avatar: 'ST',
-    avatarColor: '#C67683',
-    text: 'Gorgeous ocean mesh top! Perfect for the beach and got so many compliments. The color is even prettier in person.',
-    rating: 5,
-    product: 'Ocean Mesh Top',
-  },
-];
+const AVATAR_COLORS = ['#c98a94', '#9caf88', '#a893c9', '#e6b223', '#C67683', '#7fa7b5'];
+const AUTO_INTERVAL = 4500;
 
-function TestimonialsSlider() {
+// "Amaya Perera" → "AP", "nethmi" → "N"
+const initials = (name = '') =>
+  name
+    .trim()
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((w) => w[0]?.toUpperCase() || '')
+    .join('') || '?';
+
+// Reviews come from the feedback you switch on in the admin page
+function TestimonialsSlider({ reviews = [] }) {
   const [current, setCurrent] = useState(0);
   const [visible, setVisible] = useState(false);
   const sectionRef = useRef(null);
   const timerRef = useRef(null);
+  const count = reviews.length;
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -66,32 +32,33 @@ function TestimonialsSlider() {
     return () => observer.disconnect();
   }, []);
 
-  useEffect(() => {
+  const startTimer = useCallback(() => {
+    clearInterval(timerRef.current);
+    if (count < 2) return;
     timerRef.current = setInterval(() => {
-      setCurrent(prev => (prev + 1) % testimonials.length);
-    }, 4500);
+      setCurrent((prev) => (prev + 1) % count);
+    }, AUTO_INTERVAL);
+  }, [count]);
+
+  useEffect(() => {
+    startTimer();
     return () => clearInterval(timerRef.current);
-  }, []);
+  }, [startTimer]);
+
+  if (count === 0) return null;
 
   const goTo = (idx) => {
-    clearInterval(timerRef.current);
     setCurrent(idx);
-    timerRef.current = setInterval(() => {
-      setCurrent(prev => (prev + 1) % testimonials.length);
-    }, 4500);
+    startTimer();
   };
 
-  // Show 3 centered cards (current -1, current, current +1)
-  const getVisibleIndices = () => {
-    const len = testimonials.length;
-    return [
-      (current - 1 + len) % len,
-      current,
-      (current + 1) % len,
-    ];
+  // Where each card sits: in the middle, on the left, on the right, or hidden
+  const positionOf = (i) => {
+    if (i === current) return 'active';
+    if (count >= 3 && i === (current - 1 + count) % count) return 'left';
+    if (i === (current + 1) % count) return 'right';
+    return 'hidden';
   };
-
-  const visibleIndices = getVisibleIndices();
 
   return (
     <section className={`ts-section ${visible ? 'ts-visible' : ''}`} ref={sectionRef} id="testimonials">
@@ -107,41 +74,36 @@ function TestimonialsSlider() {
 
       <div className="ts-track-wrap">
         <div className="ts-track">
-          {testimonials.map((review, i) => {
-            const pos = visibleIndices.indexOf(i);
-            const isActive = i === current;
-            const isLeft = pos === 0;
-            const isRight = pos === 2;
-            const isHidden = pos === -1;
+          {reviews.map((review, i) => {
+            const pos = positionOf(i);
             return (
               <div
                 key={review.id}
-                className={`ts-card ${isActive ? 'ts-card-active' : ''} ${isLeft ? 'ts-card-left' : ''} ${isRight ? 'ts-card-right' : ''} ${isHidden ? 'ts-card-hidden' : ''}`}
-                onClick={() => !isActive && goTo(i)}
+                className={`ts-card ts-card-${pos}`}
+                onClick={() => pos !== 'active' && goTo(i)}
               >
                 {/* Quote icon */}
                 <div className="ts-quote">❝</div>
 
-                {/* Stars */}
-                <div className="ts-stars">
-                  {Array.from({ length: 5 }, (_, si) => (
-                    <span key={si} className={si < review.rating ? 'ts-star-filled' : 'ts-star-empty'}>★</span>
-                  ))}
-                </div>
+                {/* Stars (only if they gave a rating) */}
+                {review.rating ? (
+                  <div className="ts-stars">
+                    {Array.from({ length: 5 }, (_, si) => (
+                      <span key={si} className={si < review.rating ? 'ts-star-filled' : 'ts-star-empty'}>★</span>
+                    ))}
+                  </div>
+                ) : null}
 
-                <p className="ts-text">{review.text}</p>
+                <p className="ts-text">{review.message}</p>
 
                 <div className="ts-footer">
                   <div
                     className="ts-avatar"
-                    style={{ background: review.avatarColor }}
+                    style={{ background: AVATAR_COLORS[i % AVATAR_COLORS.length] }}
                   >
-                    {review.avatar}
+                    {initials(review.name)}
                   </div>
-                  <div>
-                    <p className="ts-name">{review.name}</p>
-                    <p className="ts-product">Purchased: {review.product}</p>
-                  </div>
+                  <p className="ts-name">{review.name}</p>
                 </div>
               </div>
             );
@@ -150,16 +112,18 @@ function TestimonialsSlider() {
       </div>
 
       {/* Dots */}
-      <div className="ts-dots">
-        {testimonials.map((_, i) => (
-          <button
-            key={i}
-            className={`ts-dot ${i === current ? 'active' : ''}`}
-            onClick={() => goTo(i)}
-            aria-label={`Testimonial ${i + 1}`}
-          />
-        ))}
-      </div>
+      {count > 1 && (
+        <div className="ts-dots">
+          {reviews.map((_, i) => (
+            <button
+              key={i}
+              className={`ts-dot ${i === current ? 'active' : ''}`}
+              onClick={() => goTo(i)}
+              aria-label={`Review ${i + 1}`}
+            />
+          ))}
+        </div>
+      )}
     </section>
   );
 }

@@ -589,6 +589,7 @@ function FeedbackTab() {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [savingId, setSavingId] = useState(null);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -612,25 +613,61 @@ function FeedbackTab() {
     else load();
   };
 
+  // Switch "Show on site" on or off
+  const toggleShow = async (f) => {
+    setSavingId(f.id);
+    const { error: e } = await supabase
+      .from('feedback')
+      .update({ show_on_site: !f.show_on_site })
+      .eq('id', f.id);
+    setSavingId(null);
+    if (e) alert(e.message);
+    else setItems((list) => list.map((x) => (x.id === f.id ? { ...x, show_on_site: !f.show_on_site } : x)));
+  };
+
+  const shownCount = items.filter((f) => f.show_on_site).length;
+
   return (
     <section>
-      <p className="mt-0 mb-4 text-charcoal/60">
-        {loading ? 'Loading…' : `${items.length} message${items.length === 1 ? '' : 's'}`}
+      <p className="mt-0 mb-1 text-charcoal/60">
+        {loading
+          ? 'Loading…'
+          : `${items.length} message${items.length === 1 ? '' : 's'} · ${shownCount} shown on the site`}
+      </p>
+      <p className="mt-0 mb-4 text-sm text-charcoal/50">
+        Switch on &quot;Show on site&quot; to add a review to the home page. It can take up to a minute to appear.
       </p>
       {error && <p className="mb-4 rounded-lg bg-[#fdecee] px-3 py-2 text-sm text-[#a5363f]">{error}</p>}
 
       <div className="grid gap-3">
         {items.map((f) => (
-          <div key={f.id} className={card}>
+          <div
+            key={f.id}
+            className={cx(card, f.show_on_site && 'border-[#9caf88] bg-[#f6f9f3]')}
+          >
             <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
               <p className="m-0 font-bold">
                 {f.name}
                 {f.rating ? <span className="ml-2 text-[#f4b740]">{'★'.repeat(f.rating)}</span> : null}
+                {f.show_on_site && (
+                  <span className="ml-2 rounded-full bg-[#9caf88] px-2 py-0.5 text-[11px] font-bold text-white">
+                    On site
+                  </span>
+                )}
               </p>
               <span className="text-xs text-charcoal/50">{new Date(f.created_at).toLocaleString()}</span>
             </div>
             <p className="mt-0 mb-3 whitespace-pre-wrap text-charcoal/80">{f.message}</p>
-            <button className={btnDanger} onClick={() => remove(f.id)}>Delete</button>
+            <div className="flex flex-wrap gap-2">
+              <button
+                className={f.show_on_site ? btnGhost : btnPrimary}
+                disabled={savingId === f.id}
+                onClick={() => toggleShow(f)}
+              >
+                {savingId === f.id ? 'Saving…' : f.show_on_site ? 'Hide from site' : 'Show on site'}
+              </button>
+              <button className={btnDanger} onClick={() => remove(f.id)}>Delete</button>
+            </div>
           </div>
         ))}
         {!loading && items.length === 0 && <p className="m-0 text-charcoal/60">No feedback yet.</p>}
