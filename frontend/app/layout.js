@@ -5,6 +5,8 @@ import Navbar from '../src/components/Navbar';
 import Footer from '../src/components/Footer';
 import ScrollToTop from '../src/components/ScrollToTopNext';
 import WhatsAppBubble from '../src/components/WhatsAppBubble';
+import CartDrawer from '../src/components/CartDrawer';
+import { CartProvider } from '../src/context/CartContext';
 
 const outfit = Outfit({
   subsets: ['latin'],
@@ -28,13 +30,16 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={outfit.variable}>
       <body>
-        <ScrollToTop />
-        <div className="App">
-          <Navbar />
-          {children}
-          <Footer />
-        </div>
-        <WhatsAppBubble />
+        <CartProvider>
+          <ScrollToTop />
+          <div className="App">
+            <Navbar />
+            {children}
+            <Footer />
+          </div>
+          <WhatsAppBubble />
+          <CartDrawer />
+        </CartProvider>
       </body>
     </html>
   );

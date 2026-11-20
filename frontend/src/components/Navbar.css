@@ -199,3 +199,78 @@
     height: 38px;
   }
 }
+
+/* ── Right side: links + cart + phone menu button ── */
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.navbar-cart {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 50%;
+  font-size: 20px;
+  color: var(--color-charcoal);
+  background: #f6f1ed;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.navbar-cart:hover {
+  color: var(--color-rose-dark);
+  background: var(--color-rose-light);
+  transform: translateY(-1px);
+}
+
+.navbar-cart-count {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  min-width: 19px;
+  height: 19px;
+  padding: 0 5px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--color-rose-dark);
+  border: 2px solid #fff;
+  box-sizing: content-box;
+  animation: navCartPop 0.35s ease;
+}
+
+@keyframes navCartPop {
+  0% {
+    transform: scale(0.4);
+  }
+
+  70% {
+    transform: scale(1.15);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar-right {
+    gap: 12px;
+  }
+
+  .navbar-cart {
+    width: 40px;
+    height: 40px;
+    font-size: 19px;
+  }
+}

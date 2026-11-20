@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { FiShoppingBag } from 'react-icons/fi';
+import { useCart } from '../context/CartContext';
 import './Navbar.css';
 import logo from '../assets/logoo.png';
 
@@ -15,6 +17,7 @@ const links = [
 
 function Navbar() {
   const pathname = usePathname();
+  const { count, openCart } = useCart();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const navRef = useRef(null);
@@ -55,24 +58,35 @@ function Navbar() {
             <img src={logo.src} alt="Shizelle" className="navbar-logo-img" />
           </Link>
 
-          <button
-            className="navbar-toggle"
-            onClick={() => setIsOpen(!isOpen)}
-            aria-label="Toggle menu"
-            aria-expanded={isOpen}
-          >
-            {isOpen ? '✕' : '☰'}
-          </button>
+          <div className="navbar-right">
+            <ul className={`navbar-links ${isOpen ? 'open' : ''}`}>
+              {links.map((l) => (
+                <li key={l.href}>
+                  <Link href={l.href} className={isActive(l.href) ? 'active' : ''}>
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
 
-          <ul className={`navbar-links ${isOpen ? 'open' : ''}`}>
-            {links.map((l) => (
-              <li key={l.href}>
-                <Link href={l.href} className={isActive(l.href) ? 'active' : ''}>
-                  {l.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
+            <button
+              className="navbar-cart"
+              onClick={openCart}
+              aria-label={count > 0 ? `Open cart, ${count} item${count === 1 ? '' : 's'}` : 'Open cart'}
+            >
+              <FiShoppingBag />
+              {count > 0 && <span className="navbar-cart-count">{count > 99 ? '99+' : count}</span>}
+            </button>
+
+            <button
+              className="navbar-toggle"
+              onClick={() => setIsOpen(!isOpen)}
+              aria-label="Toggle menu"
+              aria-expanded={isOpen}
+            >
+              {isOpen ? '✕' : '☰'}
+            </button>
+          </div>
         </nav>
       </div>
     </>

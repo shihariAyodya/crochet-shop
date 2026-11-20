@@ -4,19 +4,13 @@ import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { GiYarn } from 'react-icons/gi';
+import { FiShoppingBag, FiCheck } from 'react-icons/fi';
 import sizeChart from '../assets/size-chart.png';
-
-const WA_NUMBER = '94705924972';
+import { useCart } from '../context/CartContext';
+import { ORDER_WHATSAPP_NUMBER } from '../lib/site';
 
 // Joins class names, skipping false/null/undefined
 const cx = (...classes) => classes.filter(Boolean).join(' ');
-
-// Adds an item, or bumps the quantity if that size + colour is already in the list
-const mergeItem = (items, item) => {
-  const i = items.findIndex((x) => x.size === item.size && x.color === item.color);
-  if (i === -1) return [...items, item];
-  return items.map((x, j) => (j === i ? { ...x, quantity: x.quantity + item.quantity } : x));
-};
 
 /* Reusable class groups */
 const sectionTitle =
@@ -47,11 +41,12 @@ function ProductDetailContent({ id, products }) {
   const [selectedSize, setSelectedSize] = useState(null);
   const [selectedColor, setSelectedColor] = useState(null);
   const [quantity, setQuantity] = useState(1);
-  const [orderItems, setOrderItems] = useState([]);
+  const [justAdded, setJustAdded] = useState(null); // text of the last item added to the cart
   const [showSizeChart, setShowSizeChart] = useState(false);
   const [activeImg, setActiveImg] = useState(0);
   const [imgZoom, setImgZoom] = useState(false);
   const [addedAnim, setAddedAnim] = useState(false);
+  const { addItem, openCart } = useCart();
 
   // Sync image when color changes
   useEffect(() => {
@@ -108,34 +103,37 @@ function ProductDetailContent({ id, products }) {
   const nextImg = () => setActiveImg((i) => (i + 1) % imageCount);
 
   const canAdd = Boolean(selectedSize && selectedColor);
-  const hasItems = orderItems.length > 0;
 
-  // The current selection is included in the order even if "Add" wasn't clicked
-  const pendingItem = canAdd ? { size: selectedSize, color: selectedColor, quantity } : null;
-  const itemsToOrder = pendingItem ? mergeItem(orderItems, pendingItem) : orderItems;
-  const canOrder = itemsToOrder.length > 0;
+  // Photo for the chosen colour (falls back to the first photo)
+  const imageForColor = (colorName) => {
+    const c = product.colors.find((x) => x.name === colorName);
+    return (c && typeof c.imageIndex === 'number' && images[c.imageIndex]) || images[0] || '';
+  };
 
-  const handleAddItem = () => {
+  const handleAddToCart = () => {
     if (!canAdd) return;
-    setOrderItems((items) => mergeItem(items, pendingItem));
+    addItem({
+      productId: product.id,
+      name: product.name,
+      category: product.category,
+      image: imageForColor(selectedColor),
+      size: selectedSize,
+      color: selectedColor,
+      quantity,
+      price: getPriceForSize(selectedSize) || '',
+    });
+    setJustAdded(`${product.name} · ${selectedSize} · ${selectedColor} · Qty ${quantity}`);
     setAddedAnim(true);
     setTimeout(() => setAddedAnim(false), 900);
+    // Ready for the next size / colour
     setSelectedSize(null);
     setSelectedColor(null);
     setQuantity(1);
   };
 
-  const handleRemoveItem = (index) => {
-    setOrderItems((items) => items.filter((_, i) => i !== index));
-  };
-
-  const buildWhatsappMessage = () => {
-    let message = `Hi! I'm interested in the ${product.name}\n`;
-    itemsToOrder.forEach((item, index) => {
-      message += `\n${index + 1})\nSize: ${item.size}\nColor: ${item.color}\nQuantity: ${item.quantity}\nPrice: ${getPriceForSize(item.size)}\n`;
-    });
-    return message;
-  };
+  // "Order now": sends just this one selection straight to WhatsApp
+  const orderNowMessage = () =>
+    `Hi Shizelle! I'd like to order:\n\n1) ${product.name}\n   Size: ${selectedSize} | Colour: ${selectedColor} | Qty: ${quantity}\n   Price: ${getPriceForSize(selectedSize)} each`;
 
   // Related products (same category, excluding current)
   const related = products
@@ -345,87 +343,61 @@ function ProductDetailContent({ id, products }) {
             </div>
           </div>
 
-          {/* ── Hint (only one, only when needed) ── */}
-          {!canAdd && !hasItems && (
+          {/* ── Hint ── */}
+          {!canAdd && (
             <p className="mt-3 mb-1 rounded-[10px] border-l-[3px] border-rose bg-rose-light/40 px-3.5 py-2.5 text-sm text-charcoal/75">
-              Choose a size and colour to order. Want more than one? Add each combination.
+              Choose a size and colour, then add it to your cart. You can add pieces from different products and order them all together.
             </p>
           )}
 
-          {/* ── Add Button ── */}
+          {/* ── Add to cart ── */}
           <button
-            onClick={handleAddItem}
+            onClick={handleAddToCart}
             disabled={!canAdd}
             className={cx(
-              'mt-2 mb-4 w-full rounded-[14px] px-6 py-3.5 text-[15px] font-bold tracking-[0.3px] transition duration-200',
+              'mt-3 flex w-full items-center justify-center gap-2.5 rounded-[14px] px-6 py-4 text-base font-bold tracking-[0.3px] transition duration-200',
               addedAnim
                 ? 'animate-pop bg-green-600 text-white'
                 : canAdd
-                  ? 'bg-sage-dark text-white hover:-translate-y-0.5 hover:bg-sage hover:shadow-lg'
+                  ? 'bg-charcoal text-white hover:-translate-y-0.5 hover:bg-rose-dark hover:shadow-lg'
                   : 'cursor-not-allowed bg-[#e0dbd8] text-charcoal/50'
             )}
           >
-            {addedAnim ? '✓ Added!' : hasItems ? '+ Add another combination' : '+ Add to selection'}
+            {addedAnim ? <><FiCheck /> Added to cart</> : <><FiShoppingBag /> Add to cart</>}
           </button>
 
-          {/* ── Order List ── */}
-          {hasItems && (
-            <div className="mb-4 rounded-2xl border border-black/5 bg-linear-to-br from-[#fdf4f5] to-[#f0f5ee] p-5">
-              <h3 className="mt-0 mb-3.5 flex items-center gap-2 text-sm font-bold text-charcoal">
-                Your Selections
-                <span className="inline-flex size-5 items-center justify-center rounded-full bg-rose text-[11px] font-bold text-white">
-                  {orderItems.length}
-                </span>
-              </h3>
-              <ul className="flex flex-col gap-2">
-                {orderItems.map((item, index) => (
-                  <li
-                    key={`${item.color}-${item.size}`}
-                    className="flex items-center justify-between gap-3 rounded-[10px] bg-white px-3.5 py-2.5 text-sm text-charcoal shadow-[0_2px_6px_rgba(0,0,0,0.05)]"
-                  >
-                    <div className="flex flex-wrap items-center gap-1.5">
-                      <strong>{item.color}</strong> · {item.size} · Qty {item.quantity}
-                      <span className="ml-1 rounded-xl bg-rose-light px-2 py-0.5 text-xs font-bold text-rose-dark">
-                        {getPriceForSize(item.size)}
-                      </span>
-                    </div>
-                    <button
-                      aria-label="Remove"
-                      onClick={() => handleRemoveItem(index)}
-                      className="shrink-0 px-0.5 text-[15px] text-charcoal/40 transition-colors hover:text-rose-dark"
-                    >✕</button>
-                  </li>
-                ))}
-              </ul>
+          {/* ── Confirmation after adding ── */}
+          {justAdded && !canAdd && (
+            <div className="mt-3 flex flex-wrap items-center justify-between gap-2 rounded-[12px] border border-[#cfe0c3] bg-[#f3f8ef] px-4 py-3 text-sm text-charcoal">
+              <span className="flex min-w-0 items-center gap-2">
+                <FiCheck className="shrink-0 text-sage-dark" />
+                <span className="truncate">Added: {justAdded}</span>
+              </span>
+              <button onClick={openCart} className="font-bold text-rose-dark underline underline-offset-2">
+                View cart
+              </button>
             </div>
           )}
 
-          {/* ── WhatsApp Button ── */}
+          {/* ── Order this one now on WhatsApp ── */}
           <a
-            href={canOrder ? `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(buildWhatsappMessage())}` : undefined}
+            href={canAdd ? `https://wa.me/${ORDER_WHATSAPP_NUMBER}?text=${encodeURIComponent(orderNowMessage())}` : undefined}
             target="_blank"
             rel="noopener noreferrer"
-            aria-disabled={!canOrder}
-            onClick={(e) => { if (!canOrder) e.preventDefault(); }}
+            aria-disabled={!canAdd}
+            onClick={(e) => { if (!canAdd) e.preventDefault(); }}
             className={cx(
-              'flex w-full items-center justify-center gap-2.5 rounded-[14px] px-6 py-4 text-base font-bold tracking-[0.3px] text-white transition duration-200',
-              canOrder
-                ? 'bg-[#25d366] shadow-[0_6px_20px_rgba(37,211,102,0.35)] hover:-translate-y-0.5 hover:bg-[#20ba58] hover:shadow-[0_12px_28px_rgba(37,211,102,0.45)]'
-                : 'cursor-not-allowed bg-[#ccc]'
+              'mt-3 flex w-full items-center justify-center gap-2.5 rounded-[14px] border-2 px-6 py-3.5 text-[15px] font-bold tracking-[0.3px] transition duration-200',
+              canAdd
+                ? 'border-[#25d366] bg-white text-[#1a9e4b] hover:-translate-y-0.5 hover:bg-[#25d366] hover:text-white'
+                : 'cursor-not-allowed border-[#ddd] bg-white text-charcoal/40'
             )}
           >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
             </svg>
-            Order on WhatsApp
+            Order just this now
           </a>
-
-          {/* Tell the customer their un-added selection is included */}
-          {pendingItem && hasItems && (
-            <p className="mt-2 text-center text-sm text-charcoal/70">
-              Also includes: {pendingItem.color} · {pendingItem.size} · Qty {pendingItem.quantity}
-            </p>
-          )}
 
           {/* ── Trust badges ── */}
           <div className="mt-4.5 flex flex-wrap gap-2">
