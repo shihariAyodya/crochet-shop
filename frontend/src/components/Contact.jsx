@@ -5,12 +5,13 @@ import './Contact.css';
 import { FaWhatsapp, FaFacebookF, FaArrowRight } from 'react-icons/fa';
 import { FiPlus } from 'react-icons/fi';
 import { MdEmail } from 'react-icons/md';
+import { WHATSAPP_LINK } from '../lib/site';
 import { getSupabaseBrowser } from '../lib/supabase/client';
 
 const contactOptions = [
   {
     key: 'whatsapp',
-    href: 'https://wa.me/94705122847',
+    href: WHATSAPP_LINK,
     external: true,
     icon: <FaWhatsapp />,
     title: 'WhatsApp',
@@ -172,7 +173,7 @@ function Contact({ variant = 'home' }) {
 
             <p className="ct-faq-more">
               Still have a question?{' '}
-              <a href="https://wa.me/94705122847" target="_blank" rel="noopener noreferrer">
+              <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
                 Ask us on WhatsApp
               </a>
             </p>

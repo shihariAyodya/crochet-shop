@@ -1,5 +1,6 @@
 import './Hero.css';
 import heroImage from '../assets/coverpage.png';
+import { WHATSAPP_LINK } from '../lib/site';
 
 function Hero() {
   const bgImg = heroImage?.src || heroImage;
@@ -17,7 +18,7 @@ function Hero() {
         </p>
         
         <a
-          href="https://wa.me/+94705122847"
+          href={WHATSAPP_LINK}
           target="_blank"
           rel="noopener noreferrer"
           className="hero-button"

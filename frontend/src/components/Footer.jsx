@@ -2,10 +2,10 @@ import './Footer.css';
 import Link from 'next/link';
 import { FaWhatsapp, FaFacebookF } from 'react-icons/fa';
 import { MdEmail } from 'react-icons/md';
+import { WHATSAPP_LINK } from '../lib/site';
 import logo from '../assets/logoo.png';
 
 const BRAND = 'Shizelle';
-const WHATSAPP_LINK = 'https://wa.me/94705122847';
 const FACEBOOK_LINK = 'https://www.facebook.com/profile.php?id=100094735062949';
 const EMAIL = 'crocheton1@gmail.com';
 

@@ -11,9 +11,8 @@ import {
   FiClock,
   FiSliders,
 } from 'react-icons/fi';
+import { WHATSAPP_LINK } from '../lib/site';
 import './About.css';
-
-const WHATSAPP_LINK = 'https://wa.me/94705122847';
 
 const STEPS = [
   {

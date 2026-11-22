@@ -2,9 +2,9 @@
 
 import { usePathname } from 'next/navigation';
 import { FaWhatsapp } from 'react-icons/fa';
+import { ORDER_WHATSAPP_NUMBER } from '../lib/site';
 import './WhatsAppBubble.css';
 
-const WA_NUMBER = '94705122847';
 const WA_MESSAGE = 'Hi Shizelle! I have a question.';
 
 function WhatsAppBubble() {
@@ -15,7 +15,7 @@ function WhatsAppBubble() {
 
     return (
         <a
-            href={`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(WA_MESSAGE)}`}
+            href={`https://wa.me/${ORDER_WHATSAPP_NUMBER}?text=${encodeURIComponent(WA_MESSAGE)}`}
             target="_blank"
             rel="noopener noreferrer"
             className="wa-bubble"

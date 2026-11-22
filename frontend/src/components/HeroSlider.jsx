@@ -3,14 +3,13 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { FaWhatsapp } from 'react-icons/fa';
+import { WHATSAPP_LINK } from '../lib/site';
 import './HeroSlider.css';
 import heroImage from '../assets/coverpageNew.jpg';
 import topPink1 from '../assets/products/top-pink-white-1.png.png';
 import halterPink from '../assets/products/halter-pink.jpg';
 import babyDressPink from '../assets/products/babydress-pink.jpeg';
 import meshtopGreen from '../assets/products/meshtop-green.jpg';
-
-const WHATSAPP_LINK = 'https://wa.me/94705122847';
 
 const slides = [
   {

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import './Contact.css';
 import { FaWhatsapp, FaFacebook } from 'react-icons/fa';
 import { MdEmail } from 'react-icons/md';
+import { WHATSAPP_LINK, WHATSAPP_DISPLAY } from '../lib/site';
 
 function Contact() {
   const [rating, setRating] = useState(0);
@@ -34,7 +35,7 @@ function Contact() {
               <div className="icon"><FaWhatsapp className="react-icon whatsapp" /></div>
               <div>
                 <strong>WhatsApp</strong>
-                <a href="https://wa.me/94705924972" target="_blank" rel="noreferrer">+94 70 592 4972</a>
+                <a href={WHATSAPP_LINK} target="_blank" rel="noreferrer">{WHATSAPP_DISPLAY}</a>
               </div>
             </div>
             <div className="info-item">

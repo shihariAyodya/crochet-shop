@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { ORDER_WHATSAPP_NUMBER } from '../lib/site';
 import './RateUs.css';
 
 function RateUs() {
@@ -12,7 +13,7 @@ function RateUs() {
     setRating(star);
 
     const message = `Hi! I'd like to rate CrochetOn: ${'★'.repeat(star)}${'☆'.repeat(5 - star)}`;
-    window.open(`https://wa.me/94705924972?text=${encodeURIComponent(message)}`, '_blank');
+    window.open(`https://wa.me/${ORDER_WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
 
     setSent(true);
   };
